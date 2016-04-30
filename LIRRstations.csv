@@ -1,0 +1,125 @@
+id,name,branch,zone
+1,Long Island City,City Zone,1
+2,Hunterspoint Avenue,City Zone,1
+8,Penn Station,City Zone,1
+9,Woodside,City Zone,1
+10,Forest Hills,City Zone,1
+11,Kew Gardens,City Zone,1
+12,Atlantic Terminal,City Zone,1
+13,Nostrand Avenue,City Zone,1
+14,East New York,City Zone,1
+15,Jamaica,City Zone,3
+17,Mets-Willets Point,Port Washington,1
+18,Flushing Main Street,Port Washington,3
+19,Murray Hill,Port Washington,3
+20,Broadway,Port Washington,3
+21,Auburndale,Port Washington,3
+22,Bayside,Port Washington,3
+23,Douglaston,Port Washington,3
+24,Little Neck,Port Washington,3
+25,Great Neck,Port Washington,4
+26,Manhasset,Port Washington,4
+27,Plandome,Port Washington,4
+28,Port Washington,Port Washington,4
+30,Hollis,Hempstead,3
+31,Queens Village,Hempstead,3
+32,Belmont,Belmont Park,4
+33,Bellerose,Hempstead,4
+34,Floral Park,Hempstead,4
+35,Stewart Manor,Hempstead,4
+36,Nassau Boulevard,Hempstead,4
+37,Garden City,Hempstead,4
+38,Country Life Press,Hempstead,4
+39,Hempstead,Hempstead,4
+40,New Hyde Park,Port Jefferson,4
+41,Merillon Avenue,Port Jefferson,4
+42,Mineola,Port Jefferson,4
+43,East Williston,Oyster Bay,4
+44,Albertson,Oyster Bay,7
+45,Roslyn,Oyster Bay,7
+46,Greenvale,Oyster Bay,7
+47,Glen Head,Oyster Bay,7
+48,Sea Cliff,Oyster Bay,7
+49,Glen Street,Oyster Bay,7
+50,Glen Cove,Oyster Bay,7
+51,Locust Valley,Oyster Bay,7
+53,Oyster Bay,Oyster Bay,7
+54,Carle Place,Port Jefferson,7
+55,Westbury,Port Jefferson,7
+56,Hicksville,Port Jefferson,7
+58,Syosset,Port Jefferson,7
+59,Cold Spring Harbor,Port Jefferson,9
+60,Huntington,Port Jefferson,9
+61,Greenlawn,Port Jefferson,9
+62,Northport,Port Jefferson,9
+63,Kings Park,Port Jefferson,10
+64,Smithtown,Port Jefferson,10
+65,St. James,Port Jefferson,10
+66,Stony Brook,Port Jefferson,10
+67,Port Jefferson,Port Jefferson,10
+68,Bethpage,Ronkonkoma,7
+69,Farmingdale,Ronkonkoma,7
+70,Pinelawn,Ronkonkoma,9
+71,Wyandanch,Ronkonkoma,9
+72,Deer Park,Ronkonkoma,9
+73,Brentwood,Ronkonkoma,10
+74,Central Islip,Ronkonkoma,10
+75,Ronkonkoma,Ronkonkoma,10
+77,Medford,Ronkonkoma,10
+78,Yaphank,Ronkonkoma,12
+79,Riverhead,Ronkonkoma,14
+80,Mattituck,Ronkonkoma,14
+81,Southold,Ronkonkoma,14
+82,Greenport,Ronkonkoma,14
+83,St. Albans,West Hempstead,3
+84,Locust Manor,Far Rockaway,3
+85,Laurelton,Far Rockaway,3
+86,Rosedale,Far Rockaway,3
+87,Valley Stream,Far Rockaway,4
+88,Westwood,West Hempstead,4
+89,Malverne,West Hempstead,4
+90,Lakeview,West Hempstead,4
+91,Hempstead Gardens,West Hempstead,4
+92,West Hempstead,West Hempstead,4
+93,Gibson,Far Rockaway,4
+94,Hewlett,Far Rockaway,4
+95,Woodmere,Far Rockaway,4
+96,Cedarhurst,Far Rockaway,4
+97,Lawrence,Far Rockaway,4
+98,Inwood,Far Rockaway,4
+99,Far Rockaway,Far Rockaway,4
+100,Lynbrook,Long Beach,4
+101,Centre Avenue,Long Beach,7
+102,East Rockaway,Long Beach,7
+103,Oceanside,Long Beach,7
+104,Island Park,Long Beach,7
+105,Long Beach,Long Beach,7
+106,Rockville Centre,Babylon,7
+107,Baldwin,Babylon,7
+108,Freeport,Babylon,7
+109,Merrick,Babylon,7
+110,Bellmore,Babylon,7
+111,Wantagh,Babylon,7
+112,Seaford,Babylon,7
+113,Massapequa,Babylon,7
+114,Massapequa Park,Babylon,7
+115,Amityville,Babylon,9
+116,Copiague,Babylon,9
+117,Lindenhurst,Babylon,9
+118,Babylon,Babylon,9
+119,Bay Shore,Montauk,10
+120,Islip,Montauk,10
+121,Great River,Montauk,10
+122,Oakdale,Montauk,10
+123,Sayville,Montauk,10
+124,Patchogue,Montauk,10
+126,Bellport,Montauk,12
+127,Mastic Shirley,Montauk,12
+129,Speonk,Montauk,12
+130,Westhampton,Montauk,14
+132,Hampton Bays,Montauk,14
+134,Southampton,Montauk,14
+135,Bridgehampton,Montauk,14
+136,East Hampton,Montauk,14
+137,Amagansett,Montauk,14
+138,Montauk,Montauk,14
