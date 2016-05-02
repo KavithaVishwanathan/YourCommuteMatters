@@ -216,3 +216,4 @@ zope.tal==4.0.0
 zope.tales==4.0.2
 zope.thread==3.4
 zope.traversing==4.0.0
+Flask-SQLAlchemy=1.0

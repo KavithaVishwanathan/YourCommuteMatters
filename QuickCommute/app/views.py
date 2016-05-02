@@ -1,12 +1,17 @@
-from flask import render_template
+from flask import render_template, request, flash, url_for, redirect
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, login_user , logout_user , current_user , login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from app import app
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://websysS16GB6:websysS16GB6!!@websys3/websysS16GB6'
+db = SQLAlchemy(app)
 
 @app.route('/')
 @app.route('/index')
 def index():
-  return "Hello, World!"
+  return render_template("commuterAppTemplate.html")
 
 lm  = LoginManager()
 lm.init_app(app)
@@ -17,6 +22,7 @@ def load_user(id):
   return User.query.get(int(id))
 
 class User(db.Model):
+  __tablename__ = "UserProfile"
   id = db.Column('UserId', db.Integer, primary_key=True)
   email = db.Column('email', db.String(45), index=True, unique=True)
   firstname = db.Column('FirstName', db.String(45))
@@ -29,13 +35,13 @@ class User(db.Model):
     self.set_password(password)
     self.firstname = firstname
     self.lastname = lastname
-    self.registered_time = datetime.estnow()
+    self.registered_time = datetime.utcnow()
  
   def set_password(self,password):
-    self.password = generate_password_has(password)
+    self.password = generate_password_hash(password)
 
   def check_password(self, password):
-    return check_password_has(self.password,password)
+    return check_password_hash(self.password,password)
 
   def is_authenticated(self):
     return True
@@ -54,6 +60,8 @@ class User(db.Model):
   
   def __repr__(self):
     return '<User %r>' % (self.firstname)
+
+db.create_all()
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -80,9 +88,23 @@ def login():
   email = request.form['email']
   password = request.form['password']
 
-  registered_user = User.query.filter_by(username=username).first()
+  registered_user = User.query.filter_by(email=email).first()
+  #registered_user = User.query.filter_by(email=email).first()
   flash(registered_user.check_password(registered_user.password))
 
+  if registered_user.check_password(password):
+    login_user(registered_user)
+    flash('Logged in successfully')
+    return ('{"%s":"success"}'%email)
+  else:
+    flash('Email or password is invalid', 'error')
+    return ('{"%s":"failed"}' %email)
+
+@app.route('/landing',methods=['GET','POST'])
+def landing():
+  if request.method == 'GET':
+    return render_template('landing.html')
+
   
-  
-  
+#if __name__ == "__main__":
+ # app.run(host='0.0.0.0', port=7006, debug=True) 

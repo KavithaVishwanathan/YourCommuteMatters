@@ -1,2 +1,4 @@
+import os
+
 WTF_CSRF_ENABLED = True
-SECRET_KEY = 'super difficult key'
+SECRET_KEY = os.urandom(12)
