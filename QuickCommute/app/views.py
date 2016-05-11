@@ -9,6 +9,8 @@ import sys
 import urllib2
 import datetime
 import numpy as np
+import pandas as pd
+from xml.etree import cElementTree as ET
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://websysS16GB6:websysS16GB6!!@websys3/websysS16GB6'
 db = SQLAlchemy(app)
@@ -83,7 +85,7 @@ class Branches(db.Model):
   def __repr__(self):
     return '<Branches %r>' % (self.branchname)
 
-class Servicess(db.Model):
+class Services(db.Model):
   __tablename__ = "Services"
   ServiceID = db.Column('ServiceID', db.Integer, primary_key = True)
   servicename = db.Column('ServiceName', db.String(45))
@@ -132,7 +134,24 @@ def login():
 @app.route('/',methods=['GET','POST'])
 def landing():
   if request.method == 'GET':
-    return render_template('commuterAppTemplate.html',stations=Stations.query.all())
+    return render_template('commuterAppTemplate.html')
+
+@app.route('/Get_StationName',methods = ['GET'])
+def Get_StationName(StationID):
+    urlData = "http://traindata.njtransit.com:8092/NJTTrainData.asmx/getStationListXML?username=aporcel&password=OTBhV18N3O66ZL"
+    webUrl = urllib2.urlopen(urlData)
+    data = webUrl.read()
+    root = ET.fromstring(data)
+    NJStations = []
+    for child in root:
+        #print child.tag, child.text
+        row = {}
+        for grandchild in child:
+            row[grandchild.tag] = grandchild.text
+        NJStations.append(row)
+    NJTdf = pd.DataFrame(NJStations)
+    return NJTdf['STATIONNAME'][NJTdf[NJTdf['STATION_2CHAR'] == 
+StationID].index[0]]
 
 @app.route('/get_trains', methods = ['GET'])
 def get_trains(Service,FROM,TO,HOUR,MIN):
@@ -141,6 +160,8 @@ def get_trains(Service,FROM,TO,HOUR,MIN):
     YEAR = today.year
     MONTH = today.month
     DAY = today.day
+    trains = []
+    reqtime = datetime.datetime(YEAR,MONTH,DAY,int(HOUR),int(MIN))
     if Service == 'LIRR':
         #urlData = ("https://traintime.lirr.org/api/Departure?api_key=%3CYOUR_KEY%3E&loc={0}".format(FROM))
         urlData = ('https://traintime.lirr.org/api/TrainTime?api_key=%3CYOUR_KEY%3E&startsta={0}&endsta={1}&year={2}&month={3}&day={4}&hour={5}&minute={6}&datoggle=d'.format(FROM,TO,YEAR,MONTH,DAY,HOUR,MIN))
@@ -149,11 +170,9 @@ def get_trains(Service,FROM,TO,HOUR,MIN):
         jsonData = json.loads(data)
         Trips = jsonData["TRIPS"]
         #print (len(TrainsData))
-        trains = []
-        reqtime = int(HOUR) * 100 + int(MIN)
         for trip in Trips:
             legs = trip["LEGS"]
-            tripTime = int(legs[0]["DEPART_TIME"])
+            tripTime = datetime.datetime.strptime(trip["ROUTE_DATE"]+legs[0]["DEPART_TIME"],"%Y%m%d%H%M")
             if tripTime >= reqtime:
                 out_trip = {}
                 out_trip["TRAIN_ID"] = legs[0]["TRAIN_ID"]
@@ -166,7 +185,41 @@ def get_trains(Service,FROM,TO,HOUR,MIN):
         output = {}
         output["TRAINS"] = trains
         json_output = json.dumps(output)
+    elif Service == 'NJT':
+        TOName = Get_StationName(TO)
+        username = 'aporcel'
+        #password = 'S2PC4VhL3JgE7W'
+        password = 'OTBhV18N3O66ZL'
+        request = urllib2.Request("http://traindata.njtransit.com:8092/NJTTrainData.asmx/getTrainScheduleJSON?username={0}&password={1}&station={2}".format(username,password,FROM))
+        result = urllib2.urlopen(request)
+        xmlstr = result.read()
+        root = ET.fromstring(xmlstr)
+        jdata = json.loads(root.text)
+        Trips = jdata["STATION"]["ITEMS"]["ITEM"]
+        for trip in Trips:
+            stops = trip["STOPS"]
+            tripTime = datetime.datetime.strptime(trip["SCHED_DEP_DATE"],"%d-%b-%Y %I:%M:%S %p")
+            IsInStop = False
+            if isinstance(stops["STOP"],dict):
+                IsInStop = stops["STOP"]["NAME"] == TOName
+            else:
+                for stop in stops["STOP"]:
+                    if (TOName == stop["NAME"]):
+                        IsInStop = True
+                        break
+            if IsInStop & (tripTime >= reqtime):
+                out_trip = {}
+                out_trip["TRAIN_ID"] = trip["TRAIN_ID"]
+                out_trip["ETA"] = trip["SCHED_DEP_DATE"]
+                if trip["TRACK"] == None:
+                    out_trip["TRACK"] = "-"
+                else:
+                    out_trip["TRACK"] = trip["TRACK"]
+                trains.append(out_trip)
+        output = {}
+        output["TRAINS"] = trains
+        json_output = json.dumps(output)     
     return json_output
-  
+
 #if __name__ == "__main__":
  # app.run(host='0.0.0.0', port=7006, debug=True) 
