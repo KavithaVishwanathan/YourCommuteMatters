@@ -2,7 +2,7 @@
 $(document).on('pagecreate', '#registerPage', function(){  
     $(document).on('click', '#register-btn', function() {
         if ($('#register-name').val().length > 0 && $('#register-password').val().length > 0 
-          && $('#email').val().length > 0) {        
+          && $('#register-email').val().length > 0) {        
             $.ajax({url: 'http://websys3.stern.nyu.edu:7006/register',
                     data: $('#register-form').serialize(),
                     type: 'post',                   
