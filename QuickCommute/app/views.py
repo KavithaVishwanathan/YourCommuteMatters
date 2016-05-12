@@ -4,6 +4,7 @@ from flask.ext.login import LoginManager, login_user , logout_user , current_use
 from werkzeug.security import generate_password_hash, check_password_hash
 #from datetime import datetime
 from app import app
+from mysql.connector import (connection)
 import json
 import sys
 import urllib2
@@ -136,25 +137,107 @@ def landing():
   if request.method == 'GET':
     return render_template('commuterAppTemplate.html')
 
-@app.route('/Get_StationName',methods = ['GET'])
-def Get_StationName(StationID):
-    urlData = "http://traindata.njtransit.com:8092/NJTTrainData.asmx/getStationListXML?username=aporcel&password=OTBhV18N3O66ZL"
-    webUrl = urllib2.urlopen(urlData)
-    data = webUrl.read()
-    root = ET.fromstring(data)
-    NJStations = []
-    for child in root:
-        #print child.tag, child.text
-        row = {}
-        for grandchild in child:
-            row[grandchild.tag] = grandchild.text
-        NJStations.append(row)
-    NJTdf = pd.DataFrame(NJStations)
-    return NJTdf['STATIONNAME'][NJTdf[NJTdf['STATION_2CHAR'] == 
-StationID].index[0]]
+@app.route('/GetStationName',methods = ['GET'])
+def GetStationName(StationID1,StationID2):
+    db = connection.MySQLConnection(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    cursor1 = db.cursor()
+    select_station1 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID1)
+    cursor1.execute(select_station1)
+    St1 = cursor1.fetchone()
+    cursor1.close()
+    cursor2 = db.cursor()
+    select_station2 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID2)
+    cursor2.execute(select_station2)
+    St2 = cursor2.fetchone()
+    cursor2.close()
+    db.close()
+    return St1[0], St2[0]
+@app.route('/GetStationsFrom', methods = ['GET'])
+def GetStationsFrom(ServiceID,Char):
+    db = connection.MySQLConnection(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    cursor = db.cursor()
+    select_station = ("SELECT S.ServiceID,\
+                              S.StationID,\
+                              S.StationName,\
+                              CASE S.StationID\
+                                  WHEN 'TS' THEN 'Secaucus Lower Level'\
+                                  WHEN 'SE' THEN 'Secaucus Upper Level'\
+                                  ELSE S.StationName\
+                              END AS DisplayName\
+                         FROM Stations S,\
+                              Services V\
+                        WHERE S.ServiceID = V.ServiceID AND\
+                              V.ServiceID = %s AND\
+                              UPPER(S.StationName) LIKE '%s'")%(ServiceID,"%"+Char.upper()+"%")
+    cursor.execute(select_station)
+    Stations = []
+    for ServiceID, StationID, StationName, DisplayName in cursor:
+        Station={}
+        Station["ServiceID"] = ServiceID
+        Station["StationID"] = StationID
+        Station["StationName"] = StationName
+        Station["DisplayName"] = DisplayName
+        Stations.append(Station)
+    Stations_Out = {}
+    Stations_Out["Stations"] = Stations
+    json_output = json.dumps(Stations_Out)
+    cursor.close()
+    db.close()
+    return json_output
 
-@app.route('/get_trains', methods = ['GET'])
-def get_trains(Service,FROM,TO,HOUR,MIN):
+@app.route('/GetStationsTo', methods = ['GET'])
+def GetStationsTo(ServID,StatID):
+    db = connection.MySQLConnection(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    cursor = db.cursor()
+    if StatID in ('TS','SE'):
+        StID = "TS','SE"
+    else:
+        StID = StatID
+    select_station = ("\
+       SELECT S.ServiceID,\
+              S.StationID,\
+              CASE S.StationID\
+                  WHEN 'TS' THEN CONCAT('Secaucus Lower Level : ',S.BranchesName)\
+                  WHEN 'SE' THEN CONCAT('Secaucus Upper Level : ',S.BranchesName)\
+                  ELSE  CONCAT(S.StationName,' : ',S.BranchesName)\
+              END AS DisplayName,\
+              S.StationName\
+         FROM (  SELECT SB.ServiceID,\
+                        SB.StationID,\
+                        GROUP_CONCAT(DISTINCT B.BranchName ORDER BY B.BranchID DESC SEPARATOR ' - ') AS BranchesName,\
+                        S.StationName\
+                   FROM STATIONBRANCH SB,\
+                        Stations S,\
+                        Branches B\
+                  WHERE SB.ServiceID = S.ServiceID AND\
+                        SB.StationID = S.StationID AND\
+                        SB.ServiceID = B.ServiceID AND\
+                        SB.BranchID  = B.BranchID  AND\
+                        SB.StationID NOT IN ('{1}') AND\
+                        (SB.ServiceID,SB.BranchID) IN (  SELECT SB1.ServiceID,SB1.BranchID\
+                                                           FROM STATIONBRANCH SB1\
+                                                          WHERE SB1.ServiceID = '{0}' AND\
+                                                                SB1.StationID IN ('{1}'))\
+               GROUP BY SB.ServiceID,SB.StationID,S.StationName) S\
+    ORDER BY S.StationName;").format(ServID,StID)
+    cursor.execute(select_station)
+    Stations = []
+    for ServiceID, StationID, DisplayName, StationName in cursor:
+        Station={}
+        Station["ServiceID"] = ServiceID
+        Station["StationID"] = StationID
+        Station["DisplayName"] = DisplayName
+        Station["StationName"] = StationName
+        Stations.append(Station)
+    Stations_Out = {}
+    Stations_Out["Stations"] = Stations
+    json_output = json.dumps(Stations_Out)
+    cursor.close()
+    db.close()
+    return json_output
+
+@app.route('/GetTrains', methods = ['GET'])
+def GetTrains(Service,FROM,TO,HOUR,MIN):
     count = 0
     today = datetime.date.today()
     YEAR = today.year
@@ -163,13 +246,11 @@ def get_trains(Service,FROM,TO,HOUR,MIN):
     trains = []
     reqtime = datetime.datetime(YEAR,MONTH,DAY,int(HOUR),int(MIN))
     if Service == 'LIRR':
-        #urlData = ("https://traintime.lirr.org/api/Departure?api_key=%3CYOUR_KEY%3E&loc={0}".format(FROM))
         urlData = ('https://traintime.lirr.org/api/TrainTime?api_key=%3CYOUR_KEY%3E&startsta={0}&endsta={1}&year={2}&month={3}&day={4}&hour={5}&minute={6}&datoggle=d'.format(FROM,TO,YEAR,MONTH,DAY,HOUR,MIN))
         webUrl = urllib2.urlopen(urlData)
         data = webUrl.read()
         jsonData = json.loads(data)
         Trips = jsonData["TRIPS"]
-        #print (len(TrainsData))
         for trip in Trips:
             legs = trip["LEGS"]
             tripTime = datetime.datetime.strptime(trip["ROUTE_DATE"]+legs[0]["DEPART_TIME"],"%Y%m%d%H%M")
@@ -186,7 +267,7 @@ def get_trains(Service,FROM,TO,HOUR,MIN):
         output["TRAINS"] = trains
         json_output = json.dumps(output)
     elif Service == 'NJT':
-        TOName = Get_StationName(TO)
+        FROMName,TOName = GetStationName(FROM,TO)
         username = 'aporcel'
         #password = 'S2PC4VhL3JgE7W'
         password = 'OTBhV18N3O66ZL'
@@ -203,15 +284,18 @@ def get_trains(Service,FROM,TO,HOUR,MIN):
             if isinstance(stops["STOP"],dict):
                 IsInStop = stops["STOP"]["NAME"] == TOName
             else:
+                FlagCheckTO = False
                 for stop in stops["STOP"]:
-                    if (TOName == stop["NAME"]):
+                    if FROMName == stop["NAME"]:
+                        FlagCheckTO = True
+                    if FlagCheckTO & (TOName == stop["NAME"]):
                         IsInStop = True
                         break
             if IsInStop & (tripTime >= reqtime):
                 out_trip = {}
                 out_trip["TRAIN_ID"] = trip["TRAIN_ID"]
                 out_trip["ETA"] = trip["SCHED_DEP_DATE"]
-                if trip["TRACK"] == None:
+                if (trip["TRACK"] == None) | (trip["TRACK"] == ""):
                     out_trip["TRACK"] = "-"
                 else:
                     out_trip["TRACK"] = trip["TRACK"]
