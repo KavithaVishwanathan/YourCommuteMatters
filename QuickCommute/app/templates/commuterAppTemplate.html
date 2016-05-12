@@ -20,7 +20,7 @@
 
 <div data-role="page" id="page1">
 	<div data-role="header" data-theme="b">
-		<h1 data-theme = 'b'>Find My Train</h1>
+		<h1 data-theme='b'>Find My Train</h1>
         <div data-role="navbar">
           <ul>
             <li><a href="#page1" class="ui-btn-active">Home</a></li>
@@ -32,9 +32,9 @@
 
 	<div data-role="main" class="ui-content">	
         <div class="ui-field-contain">
-    		<label for="select-native-1">Origin Station:</label>
+    		<label for="select-from" data-theme='b'>Origin Station:</label>
             <br>
-            <select name="select-native-1" id="select-native-1" data-native-menu="false">
+            <select name="select-native-1" id="select-from">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -43,8 +43,8 @@
             </select>
         </div>
         <div class="ui-field-contain">
-            <label for="select-to">Destination Station:</label>
-            <select name="select-native-1" id="select-to" data-native-menu="false">
+            <label for="select-to" data-theme='b'>Destination Station:</label>
+            <select name="select-native-1" id="select-to">
                 <!-- <option value="choose-one" data-placeholder="true">Destination Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -53,7 +53,7 @@
             </select>
         </div>
         <div class="ui-field-contain">
-            <label for="notifTime">Notification Time:</label>
+            <label for="notifTime" data-theme='b'>Notification Time:</label>
             <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />
         </div>
 
