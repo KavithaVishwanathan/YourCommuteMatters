@@ -21,7 +21,7 @@
 		<h1 data-theme = 'b'>Find My Train</h1>
         <div data-role="navbar">
           <ul>
-            <li><a href="#page1" class="ui-btn-active ui-state-persist">Home</a></li>
+            <li><a href="#page1" class="ui-btn-active">Home</a></li>
             <li><a href="#page2">Train Info</a></li>
             <li><a href="#page3">Profile</a></li>
           </ul>
@@ -29,11 +29,47 @@
 	</div>
 
 	<div data-role="main" class="ui-content">	
-		<ul data-role="listview">
-			<li><a href="#page2">F I N D &nbsp;M Y &nbsp;T R A I N</a></li>
-            <li><a href="#page3">T R A I N &nbsp;I N F O</a></li>
-			<li><a href="#page4">P R O F I L E</a></li>
-		</ul>		
+        <div class="ui-field-contain">
+    		<label for="select-custom-21">Origin Station:</label>
+            <select name="select-custom-21" id="select-From" data-native-menu="false">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        <div class="ui-field-contain">
+            <label for="select-custom-21">Destination Station:</label>
+            <select name="select-custom-21" id="select-to" data-native-menu="false">
+                <!-- <option value="choose-one" data-placeholder="true">Destination Station...</option> -->
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <legend>Track Time:</legend>
+            <label for="select-custom-11">Select A</label>
+            <select name="select-custom-11" id="select-custom-11" data-native-menu="false">
+                <option value="#">One</option>
+                <option value="#">Two</option>
+                <option value="#">Three</option>
+            </select>
+            <label for="select-custom-12">Select B</label>
+            <select name="select-custom-12" id="select-custom-12" data-native-menu="false">
+                <option value="#">One</option>
+                <option value="#">Two</option>
+                <option value="#">Three</option>
+            </select>
+            <label for="select-custom-13">Select C</label>
+            <select name="select-custom-13" id="select-custom-13" data-native-menu="false">
+                <option value="#">One</option>
+                <option value="#">Two</option>
+                <option value="#">Three</option>
+            </select>
+        </fieldset>
 	</div>
 
 	<div data-role="footer" data-theme="b">
