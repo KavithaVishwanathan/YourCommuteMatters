@@ -3,30 +3,39 @@
 
 <head>
 
-<meta charset="utf-8">
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 <title>jQuery Mobile Web App</title>
-<link href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" rel="stylesheet" type="text/css"/>
 <link href="static/commuter.css" rel="stylesheet" type="text/css">
-<script src="http://code.jquery.com/jquery-1.5.min.js" type="text/javascript"></script>
-<script src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script src="../static/script.js" type="text/javascript"></script>
 
 </head> 
 
 <body>
 
-<div data-role="page" id="page">
+<div data-role="page" id="page1">
 	<div data-role="header">
-		<h1 style="color: white; font-family:arial narrow;">L O A D I N G &nbsp;P A G E <br> needs logo 
-        </h1>
+		<h1 data-theme = 'b'>Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" class="ui-btn-active ui-state-persist">Home</a></li>
+            <li><a href="#page2">Train Info</a></li>
+            <li><a href="#page3">Profile</a></li>
+          </ul>
+        </div>
 	</div>
-	<div data-role="content">	
+
+	<div data-role="main" class="ui-content">	
 		<ul data-role="listview">
 			<li><a href="#page2">F I N D &nbsp;M Y &nbsp;T R A I N</a></li>
             <li><a href="#page3">T R A I N &nbsp;I N F O</a></li>
 			<li><a href="#page4">P R O F I L E</a></li>
 		</ul>		
 	</div>
+
 	<div data-role="footer">
 		<h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
 	</div>
