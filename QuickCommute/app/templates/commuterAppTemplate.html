@@ -8,8 +8,10 @@
 <title>jQuery Mobile Web App</title>
 <link href="static/commuter.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.css">
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
 <script src="../static/script.js" type="text/javascript"></script>
 
 </head> 
@@ -30,8 +32,8 @@
 
 	<div data-role="main" class="ui-content">	
         <div class="ui-field-contain">
-    		<label for="select-custom-21">Origin Station:</label>
-            <select name="select-custom-21" id="select-From" data-native-menu="false">
+    		<label for="select-custom-1">Origin Station:</label>
+            <select name="select-custom-1" id="select-From" data-native-menu="false">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -40,8 +42,8 @@
             </select>
         </div>
         <div class="ui-field-contain">
-            <label for="select-custom-21">Destination Station:</label>
-            <select name="select-custom-21" id="select-to" data-native-menu="false">
+            <label for="select-custom-1">Destination Station:</label>
+            <select name="select-custom-1" id="select-to" data-native-menu="false">
                 <!-- <option value="choose-one" data-placeholder="true">Destination Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -49,9 +51,12 @@
                 <option value="4">Station 4</option>
             </select>
         </div>
+        <div class="ui-field-contain">
+            <label for="notifTime">Notification Time:</label>
+            <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />
+        </div>
         <fieldset data-role="controlgroup" data-type="horizontal">
-            <legend>Track Time:</legend>
-            <label for="select-custom-11">Select A</label>
+            <label for="select-custom-1">Track Time:</label>
             <select name="select-custom-11" id="select-custom-11" data-native-menu="false">
                 <option value="#">One</option>
                 <option value="#">Two</option>
