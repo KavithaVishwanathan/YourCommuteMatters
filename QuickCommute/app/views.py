@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 #from datetime import datetime
 from app import app
 #from mysql.connector import (connection)
+import MySQLdb
 import json
 import sys
 import urllib2
@@ -138,7 +139,7 @@ def landing():
 
 @app.route('/GetStationName',methods = ['GET'])
 def GetStationName(StationID1,StationID2):
-    db = connection.MySQLConnection(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
     cursor1 = db.cursor()
     select_station1 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID1)
     cursor1.execute(select_station1)
@@ -153,7 +154,7 @@ def GetStationName(StationID1,StationID2):
     return St1[0], St2[0]
 @app.route('/GetStationsFrom', methods = ['GET'])
 def GetStationsFrom(ServiceID,Char):
-    db = connection.MySQLConnection(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
     cursor = db.cursor()
     select_station = ("SELECT S.ServiceID,\
                               S.StationID,\
@@ -186,7 +187,7 @@ def GetStationsFrom(ServiceID,Char):
 
 @app.route('/GetStationsTo', methods = ['GET'])
 def GetStationsTo(ServID,StatID):
-    db = connection.MySQLConnection(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
     cursor = db.cursor()
     if StatID in ('TS','SE'):
         StID = "TS','SE"
