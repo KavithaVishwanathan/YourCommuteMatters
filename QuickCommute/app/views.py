@@ -29,8 +29,7 @@ class User(db.Model):
   __tablename__ = "UserProfile"
   id = db.Column('UserId', db.Integer, primary_key=True)
   email = db.Column('email', db.String(45), unique=True)
-  firstname = db.Column('FirstName', db.String(45))
-  lastname = db.Column('LastName', db.String(45))
+  name = db.Column('Name', db.String(45))
   password = db.Column('Password', db.String(128))
   registration_time = db.Column('RegistrationTime', db.DateTime)
     
@@ -96,21 +95,18 @@ class Services(db.Model):
 
 db.create_all()
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
-  if request.method == 'GET':
-    return render_template('register.html')
-  
-  firstname = request.form['register-name']
+  name = request.form['register-name']
   email = request.form['register-email']
   password = request.form['register-password']
   
-  user = User(email,firstname,lastname,password)
+  user = User(email,name,password)
   db.session.add(user)
   db.session.commit()
 
   flash('User registered successfully!!')
-  return jsonify({ 'email': user.email, 'status' : 'success' }), 201, {'Location': url_for('login', id = user.id, _external = True)}
+  return json.dumps({ 'email': email, 'status' : 'success' }), 201}
 
 @app.route('/login', methods=['GET','POST'])
 def login():

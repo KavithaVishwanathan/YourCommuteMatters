@@ -5,7 +5,7 @@ $(document).on('pagecreate', '#registerPage', function(){
           && $('#register-email').val().length > 0) {        
             $.ajax({url: 'http://websys3.stern.nyu.edu:7006/register',
                     data: $('#register-form').serialize(),
-                    type: 'post',                   
+                    type: 'POST',                   
                     async: 'true',
                     dataType: 'json',
                     beforeSend: function() {
