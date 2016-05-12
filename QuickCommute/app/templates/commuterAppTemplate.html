@@ -23,14 +23,14 @@
         <h1 data-theme="b">Find My Train</h1>
         <div data-role="navbar">
           <ul>
-            <li><a href="#page1">Home</a></li>
-            <li><a href="#page2">Train Info</a></li>
-            <li><a href="#page3">Profile</a></li>
+            <li><a href="#loginPage" data-transition="slide">Sign-In</a></li>
+            <li><a href="#registerPage" data-transition="slide">Register</a></li>
           </ul>
         </div>
     </div>
 
     <div data-role="main" class="ui-content">
+        <form id="register-form">
     	<div class="ui-field-contain">
         	<label for="text-basic">Name</label>
 			<input type="text" name="text-basic" id="register-name" value="">
@@ -48,7 +48,7 @@
         
         <div class="ui-field-contain">
     		<label for="select-service">LIRR/NJT:</label>
-            <select name="select-native-1" id="select-service-register">
+            <select name="select-custom-1" data-native-menu="false" id="select-service-register">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
@@ -56,7 +56,7 @@
     	   
         <div class="ui-field-contain">
     		<label for="select-from">Home Station:</label>
-            <select name="select-native-1" id="select-from-register">
+            <select name="select-custom-1" data-native-menu="false" id="select-from-register">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -67,7 +67,7 @@
         
         <div class="ui-field-contain">
     		<label for="select-to">Favorite Destination:</label>
-            <select name="select-native-1" id="select-to-register">
+            <select name="select-custom-1" data-native-menu="false" id="select-to-register">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -77,8 +77,9 @@
         </div>
         
         <div class="ui-field-contain">
-        	<button class="ui-shadow ui-btn ui-corner-all">Register</button>
+        	<button class="ui-shadow ui-btn ui-corner-all" id="register-btn">Register</button>
         </div>
+        </form>
     </div>
 
     <div data-role="footer" data-theme="b">
@@ -112,7 +113,7 @@
         <div class="ui-field-contain">
         	<button class="ui-shadow ui-btn ui-corner-all">Log In</button>
         </div>
-       
+    </div>   
     <div data-role="footer" data-theme="b">
         <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
     </div>
@@ -123,9 +124,9 @@
 		<h1 data-theme="b">Find My Train</h1>
         <div data-role="navbar">
           <ul>
-            <li><a href="#page1" class="ui-btn-active">Home</a></li>
-            <li><a href="#page2">Train Info</a></li>
-            <li><a href="#page3">Profile</a></li>
+            <li><a href="#page1" class="ui-btn-active" data-transition="slide">Home</a></li>
+            <li><a href="#page2" data-transition="slide">Train Info</a></li>
+            <li><a href="#page3" data-transition="slide">Profile</a></li>
           </ul>
         </div>
 	</div>
@@ -133,14 +134,14 @@
 	<div data-role="main" class="ui-content">
     	<div class="ui-field-contain">
     		<label for="select-service">LIRR/NJT:</label>
-            <select name="select-native-1" id="select-service">
+            <select name="select-custom-1" data-native-menu="false" id="select-service">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
         </div>	
         <div class="ui-field-contain">
     		<label for="select-from">Origin Station:</label>
-            <select name="select-native-1" id="select-from">
+            <select name="select-custom-1" data-native-menu="false" id="select-from">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -150,7 +151,7 @@
         </div>
         <div class="ui-field-contain">
             <label for="select-to">Destination Station:</label>
-            <select name="select-native-1" id="select-to">
+            <select name="select-custom-1" data-native-menu="false" id="select-to">
                 <!-- <option value="choose-one" data-placeholder="true">Destination Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -175,9 +176,9 @@
         <h1 data-theme='b'>Find My Train</h1>
         <div data-role="navbar">
           <ul>
-            <li><a href="#page1">Home</a></li>
-            <li><a href="#page2" class="ui-btn-active">Train Info</a></li>
-            <li><a href="#page3">Profile</a></li>
+            <li><a href="#page1" data-transition="slide">Home</a></li>
+            <li><a href="#page2" class="ui-btn-active" data-transition="slide">Train Info</a></li>
+            <li><a href="#page3" data-transition="slide">Profile</a></li>
           </ul>
         </div>
     </div>
@@ -196,9 +197,9 @@
         <h1 data-theme='b'>Find My Train</h1>
         <div data-role="navbar">
           <ul>
-            <li><a href="#page1">Home</a></li>
-            <li><a href="#page2">Train Info</a></li>
-            <li><a href="#page3" class="ui-btn-active">Profile</a></li>
+            <li><a href="#page1" data-transition="slide">Home</a></li>
+            <li><a href="#page2" data-transition="slide">Train Info</a></li>
+            <li><a href="#page3" class="ui-btn-active" data-transition="slide">Profile</a></li>
           </ul>
         </div>
     </div>
