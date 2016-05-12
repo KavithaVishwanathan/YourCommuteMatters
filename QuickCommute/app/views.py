@@ -4,7 +4,7 @@ from flask.ext.login import LoginManager, login_user , logout_user , current_use
 from werkzeug.security import generate_password_hash, check_password_hash
 #from datetime import datetime
 from app import app
-from mysql.connector import (connection)
+#from mysql.connector import (connection)
 import json
 import sys
 import urllib2
@@ -129,7 +129,7 @@ def login():
     return json.dumps({'status':'success'}), 201
   else:
     flash('Email or password is invalid', 'error')
-    eturn json.dumps({"status":"failure", "message": "invalid password"}), 201
+    return json.dumps({"status":"failure", "message": "invalid password"}), 201
 
 @app.route('/',methods=['GET','POST'])
 def landing():
