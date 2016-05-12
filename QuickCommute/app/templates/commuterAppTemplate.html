@@ -5,7 +5,7 @@
 
 <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
 <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-<title>jQuery Mobile Web App</title>
+<title>Find My Train</title>
 <!-- <link href="static/commuter.css" rel="stylesheet" type="text/css"> -->
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.css">
@@ -85,27 +85,24 @@
 </div>
 
 <div data-role="page" id="page3">
-	<div data-role="header">
-		<h1>T R A I N &nbsp;I N F O</h1>
-	</div>
-	<div data-role="content">	
-		Content		
-	</div>
-	<div data-role="footer">
-		<h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-	</div>
-</div>
+    <div data-role="header" data-theme="b">
+        <h1 data-theme='b'>Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1">Home</a></li>
+            <li><a href="#page2">Train Info</a></li>
+            <li><a href="#page3" class="ui-btn-active">Profile</a></li>
+          </ul>
+        </div>
+    </div>
 
-<div data-role="page" id="page4">
-	<div data-role="header">
-		<h1>P R O F I L E</h1>
-	</div>
-	<div data-role="content">	
-		Content		
-	</div>
-	<div data-role="footer">
-		<h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-	</div>
+    <div data-role="main" class="ui-content">   
+        <p> Fill content </p>
+    </div>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
 </div>
 
 </body>

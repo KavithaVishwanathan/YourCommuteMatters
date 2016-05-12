@@ -1,5 +1,5 @@
+/**
 @charset "UTF-8";
-/* CSS Document */
 
 body {
   font-family: 'ARIAL NARROW';
@@ -130,3 +130,5 @@ textarea {
 }
 .top-row > div:last-child {
   margin: 0;
+}
+**/
