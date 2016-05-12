@@ -18,9 +18,109 @@
 
 <body>
 
+<div data-role="page" id="registerPage">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1">Home</a></li>
+            <li><a href="#page2">Train Info</a></li>
+            <li><a href="#page3">Profile</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="main" class="ui-content">
+    	<div class="ui-field-contain">
+        	<label for="text-basic">Name</label>
+			<input type="text" name="text-basic" id="register-name" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="email">Email</label>
+			<input type="email" name="email" id="register-email" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="password">Password:</label>
+			<input type="password" name="password" id="register-password" value="" autocomplete="off">
+		</div>
+        
+        <div class="ui-field-contain">
+    		<label for="select-service">LIRR/NJT:</label>
+            <select name="select-native-1" id="select-service-register">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>
+    	   
+        <div class="ui-field-contain">
+    		<label for="select-from">Home Station:</label>
+            <select name="select-native-1" id="select-from-register">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+    		<label for="select-to">Favorite Destination:</label>
+            <select name="select-native-1" id="select-to-register">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+        	<button class="ui-shadow ui-btn ui-corner-all">Register</button>
+        </div>
+    </div>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="loginPage">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1">Home</a></li>
+            <li><a href="#page2">Train Info</a></li>
+            <li><a href="#page3">Profile</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="main" class="ui-content">        
+        <div class="ui-field-contain">
+        	<label for="email">Email</label>
+			<input type="email" name="email" id="login-email" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="password">Password:</label>
+			<input type="password" name="password" id="login-password" value="" autocomplete="off">
+		</div>
+        
+        <div class="ui-field-contain">
+        	<button class="ui-shadow ui-btn ui-corner-all">Log In</button>
+        </div>
+       
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
 <div data-role="page" id="page1">
 	<div data-role="header" data-theme="b">
-		<h1 data-theme='b'>Find My Train</h1>
+		<h1 data-theme="b">Find My Train</h1>
         <div data-role="navbar">
           <ul>
             <li><a href="#page1" class="ui-btn-active">Home</a></li>
@@ -30,7 +130,14 @@
         </div>
 	</div>
 
-	<div data-role="main" class="ui-content">	
+	<div data-role="main" class="ui-content">
+    	<div class="ui-field-contain">
+    		<label for="select-service">LIRR/NJT:</label>
+            <select name="select-native-1" id="select-service">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>	
         <div class="ui-field-contain">
     		<label for="select-from">Origin Station:</label>
             <select name="select-native-1" id="select-from">
@@ -55,7 +162,7 @@
             <label for="notifTime">Notification Time:</label>
             <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />
         </div>
-        <img src="../static/findmytrain.png" width="166" height="159" alt=""/>
+        <img src="../static/findmytrain.png" width="166" height="159" alt="" align="middle"/>
 	</div>
 
 	<div data-role="footer" data-theme="b">
