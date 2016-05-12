@@ -99,17 +99,16 @@ def register():
   if request.method == 'GET':
     return render_template('register.html')
   
-  firstname = request.form['firstname']
-  lastname = request.form['lastname']
-  email = request.form['email']
-  password = request.form['password']
+  firstname = request.form['register-name']
+  email = request.form['register-email']
+  password = request.form['register-password']
   
   user = User(email,firstname,lastname,password)
   db.session.add(user)
   db.session.commit()
 
   flash('User registered successfully!!')
-  return redirect(url_for('login'))
+  return jsonify({ 'email': user.email, 'status' : 'success' }), 201, {'Location': url_for('login', id = user.id, _external = True)}
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -126,10 +125,10 @@ def login():
   if registered_user.check_password(password):
     login_user(registered_user)
     flash('Logged in successfully')
-    return ('{"%s":"success"}'%email)
+    return json.dumps({'status':'success'}), 201
   else:
     flash('Email or password is invalid', 'error')
-    return ('{"%s":"failed"}' %email)
+    eturn json.dumps({"status":"failure", "message": "invalid password"}), 201
 
 @app.route('/',methods=['GET','POST'])
 def landing():
