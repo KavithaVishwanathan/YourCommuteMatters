@@ -100,13 +100,15 @@ def register():
   name = request.form['register-name']
   email = request.form['register-email']
   password = request.form['register-password']
-  
+  console.log(name)
   user = User(email,name,password)
+  console.log("user")
   db.session.add(user)
+  console.log("added")
   db.session.commit()
-
+  console.log("committed")
   flash('User registered successfully!!')
-  return json.dumps({ 'email': email, 'status' : 'success' }), 201}
+  return jsonify({ 'email': email, 'status' : 'success' }), 201
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -148,7 +150,8 @@ def GetStationName(StationID1,StationID2):
     cursor2.close()
     db.close()
     return St1[0], St2[0]
-@app.route('/GetStationsFrom', methods = ['GET'])
+
+@app.route('/GetStationsFrom', methods = ['GET','POST'])
 def GetStationsFrom(ServiceID,Char):
     db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
     cursor = db.cursor()
@@ -181,7 +184,7 @@ def GetStationsFrom(ServiceID,Char):
     db.close()
     return json_output
 
-@app.route('/GetStationsTo', methods = ['GET'])
+@app.route('/GetStationsTo', methods = ['GET','POST'])
 def GetStationsTo(ServID,StatID):
     db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
     cursor = db.cursor()
@@ -232,7 +235,7 @@ def GetStationsTo(ServID,StatID):
     db.close()
     return json_output
 
-@app.route('/GetTrains', methods = ['GET'])
+@app.route('/GetTrains', methods = ['GET','POST'])
 def GetTrains(Service,FROM,TO,HOUR,MIN):
     count = 0
     today = datetime.date.today()
