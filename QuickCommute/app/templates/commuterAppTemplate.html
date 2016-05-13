@@ -26,7 +26,7 @@
         <div data-role="navbar">
           <ul>
             <li><a href="#loginPage" data-transition="slide">Sign-In</a></li>
-            <li><a href="#registerPage" data-transition="slide">Register</a></li>
+            <li><a href="#registerPage" class="ui-btn-active" data-transition="slide">Register</a></li>
           </ul>
         </div>
     </div>
@@ -94,14 +94,14 @@
         <h1 data-theme="b">Find My Train</h1>
         <div data-role="navbar">
           <ul>
-            <li><a href="#page1">Home</a></li>
-            <li><a href="#page2">Train Info</a></li>
-            <li><a href="#page3">Profile</a></li>
+            <li><a href="#loginPage" class="ui-btn-active" data-transition="slide">Sign-In</a></li>
+            <li><a href="#registerPage" data-transition="slide">Register</a></li>
           </ul>
         </div>
     </div>
 
-    <div data-role="main" class="ui-content">        
+    <div data-role="main" class="ui-content">
+        <form id="login-form" method="post" action="/login">      
         <div class="ui-field-contain">
         	<label for="email">Email</label>
 			<input type="email" name="email" id="login-email" value="">
@@ -113,8 +113,9 @@
 		</div>
         
         <div class="ui-field-contain">
-        	<button class="ui-shadow ui-btn ui-corner-all">Log In</button>
+        	<button class="ui-shadow ui-btn ui-corner-all" id="login-btn">Log In</button>
         </div>
+        </form>
     </div>   
     <div data-role="footer" data-theme="b">
         <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
@@ -136,14 +137,14 @@
 	<div data-role="main" class="ui-content">
     	<div class="ui-field-contain">
     		<label for="select-service">LIRR/NJT:</label>
-            <select name="select-custom-1" data-native-menu="false" id="select-service">
+            <select name="select-service" data-native-menu="false" id="select-service">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
         </div>	
         <div class="ui-field-contain">
     		<label for="select-from">Origin Station:</label>
-            <select name="select-custom-1" data-native-menu="false" id="select-from">
+            <select name="select-from" data-native-menu="false" id="select-from">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -153,7 +154,7 @@
         </div>
         <div class="ui-field-contain">
             <label for="select-to">Destination Station:</label>
-            <select name="select-custom-1" data-native-menu="false" id="select-to">
+            <select name="select-to" data-native-menu="false" id="select-to">
                 <!-- <option value="choose-one" data-placeholder="true">Destination Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>

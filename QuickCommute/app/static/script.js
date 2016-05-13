@@ -38,11 +38,11 @@ $(document).on('pageinit', '#registerPage', function(){
 });
 
 // login
-$(document).on('pageinit', '#login', function(){  
-    $(document).on('click', '#login-submit', function() { // catch the form's submit event
-	    if($('#l-username').val().length > 0 && $('#l-password').val().length > 0){
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7002/login',
-                	data: $('#l-form').serialize(),
+$(document).on('pageinit', '#loginPage', function(){  
+    $(document).on('click', '#login-btn', function() { // catch the form's submit event
+	    if($('#login-email').val().length > 0 && $('#login-password').val().length > 0){
+            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/login',
+                	data: $('#login-form').serialize(),
                 	type: 'post',                   
                 	async: 'true',
                     dataType: 'json',
@@ -56,9 +56,9 @@ $(document).on('pageinit', '#login', function(){
                 	
                 	success: function (result) {
                         if(result.status && result.status == "success") {
-                            $.mobile.changePage("#plan");                         
+                            $.mobile.changePage("#page1");                         
                         } else {
-                            alert('Logon unsuccessful!'); 
+                            alert('Login unsuccessful!'); 
                         }
                 	},
                 
