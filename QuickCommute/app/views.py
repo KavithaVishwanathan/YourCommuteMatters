@@ -1,21 +1,26 @@
-from flask import render_template, request, flash, url_for, redirect
+from flask import jsonify, render_template, request, flash, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, login_user , logout_user , current_user , login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-#from datetime import datetime
+import time
 from app import app
+from datetime import datetime
 #from mysql.connector import (connection)
 import MySQLdb
 import json
 import sys
 import urllib2
-import datetime
 import numpy as np
 import pandas as pd
+from crossdomain import crossdomain
+from flask.ext.cors import CORS, cross_origin
 from xml.etree import cElementTree as ET
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://websysS16GB6:websysS16GB6!!@websys3/websysS16GB6'
 db = SQLAlchemy(app)
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 lm  = LoginManager()
 lm.init_app(app)
@@ -33,11 +38,10 @@ class User(db.Model):
   password = db.Column('Password', db.String(128))
   registration_time = db.Column('RegistrationTime', db.DateTime)
     
-  def __init__(self, email, firstname, lastname, password):
+  def __init__(self, email, name, password):
     self.email = email
     self.set_password(password)
-    self.firstname = firstname
-    self.lastname = lastname
+    self.name = name
     self.registered_time = datetime.utcnow()
  
   def set_password(self,password):
@@ -95,22 +99,24 @@ class Services(db.Model):
 
 db.create_all()
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET','POST'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
-  name = request.form['register-name']
-  email = request.form['register-email']
-  password = request.form['register-password']
-  console.log(name)
+  if request.method == 'GET':
+    return render_template('register.html')
+  name = request.form['text-basic']
+  print name
+  email = request.form['email']
+  password = request.form['password']
+  print email
   user = User(email,name,password)
-  console.log("user")
   db.session.add(user)
-  console.log("added")
   db.session.commit()
-  console.log("committed")
   flash('User registered successfully!!')
   return jsonify({ 'email': email, 'status' : 'success' }), 201
 
 @app.route('/login', methods=['GET','POST'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
   if request.method == 'GET':
     return render_template('login.html')

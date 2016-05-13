@@ -1,5 +1,5 @@
 // Register
-$(document).on('pagecreate', '#registerPage', function(){  
+$(document).on('pageinit', '#registerPage', function(){  
     $(document).on('click', '#register-btn', function() {
         if($('#register-name').val().length > 0 && $('#register-password').val().length > 0 
           && $('#register-email').val().length > 0){        
@@ -7,9 +7,8 @@ $(document).on('pagecreate', '#registerPage', function(){
                     data: $('#register-form').serialize(),
                     type: 'POST',                   
                     async: 'true',
-                    dataType: 'json',
-		    console.log("before success")
-/*		
+		    dataType: 'json',
+		   
                     beforeSend: function() {
                         $.mobile.loading('show');
                     },
@@ -17,7 +16,7 @@ $(document).on('pagecreate', '#registerPage', function(){
                     complete: function() {
                         $.mobile.loading('hide');
                     },
-*/                    
+   
                     success: function (result) {
                         if(result.status && result.status == "success") {
                             $.mobile.changePage("#loginPage");                         
