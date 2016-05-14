@@ -105,10 +105,8 @@ def register():
   if request.method == 'GET':
     return render_template('register.html')
   name = request.form['text-basic']
-  print name
   email = request.form['email']
   password = request.form['password']
-  print email
   user = User(email,name,password)
   db.session.add(user)
   db.session.commit()
@@ -126,15 +124,13 @@ def login():
 
   registered_user = User.query.filter_by(email=email).first()
   #registered_user = User.query.filter_by(email=email).first()
-  flash(registered_user.check_password(registered_user.password))
+  #flash(registered_user.check_password(registered_user.password))
 
-  if registered_user.check_password(password):
+  if registered_user and registered_user.check_password(password):
     login_user(registered_user)
-    flash('Logged in successfully')
-    return json.dumps({'status':'success'}), 201
+    return jsonify({'status':'success'}), 201
   else:
-    flash('Email or password is invalid', 'error')
-    return json.dumps({"status":"failure", "message": "invalid password"}), 201
+    return jsonify({"status":"failure", "message": "invalid password"}), 201
 
 @app.route('/',methods=['GET','POST'])
 def landing():
@@ -143,7 +139,7 @@ def landing():
 
 @app.route('/GetStationName',methods = ['GET'])
 def GetStationName(StationID1,StationID2):
-    db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    db = MySQLdb.connect(user='websysS16GB6', passwd='websysS16GB6!!',host='websys3.stern.nyu.edu',db = 'websysS16GB6')
     cursor1 = db.cursor()
     select_station1 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID1)
     cursor1.execute(select_station1)
@@ -157,9 +153,9 @@ def GetStationName(StationID1,StationID2):
     db.close()
     return St1[0], St2[0]
 
-@app.route('/GetStationsFrom', methods = ['GET','POST'])
+@app.route('/GetStationsFrom/<string:ServiceID>/<string:Char>/', methods = ['GET','POST'])
 def GetStationsFrom(ServiceID,Char):
-    db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    db = MySQLdb.connect(user='websysS16GB6', passwd='websysS16GB6!!',host='websys3.stern.nyu.edu',db = 'websysS16GB6')
     cursor = db.cursor()
     select_station = ("SELECT S.ServiceID,\
                               S.StationID,\
@@ -190,9 +186,9 @@ def GetStationsFrom(ServiceID,Char):
     db.close()
     return json_output
 
-@app.route('/GetStationsTo', methods = ['GET','POST'])
+@app.route('/GetStationsTo/<string:ServID>/<string:StatID>/', methods = ['GET','POST'])
 def GetStationsTo(ServID,StatID):
-    db = MySQLdb.connect(user='websysS16GB6', password='websysS16GB6!!',host='websys3.stern.nyu.edu',database = 'websysS16GB6')
+    db = MySQLdb.connect(user='websysS16GB6', passwd='websysS16GB6!!',host='websys3.stern.nyu.edu',db = 'websysS16GB6')
     cursor = db.cursor()
     if StatID in ('TS','SE'):
         StID = "TS','SE"
@@ -241,7 +237,7 @@ def GetStationsTo(ServID,StatID):
     db.close()
     return json_output
 
-@app.route('/GetTrains', methods = ['GET','POST'])
+@app.route('/GetTrains/<string:Service>/<string:FROM>/<string:TO>/<string:HOUR>/<string:MIN>/', methods = ['GET','POST'])
 def GetTrains(Service,FROM,TO,HOUR,MIN):
     count = 0
     today = datetime.date.today()

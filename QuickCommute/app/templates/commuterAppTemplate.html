@@ -12,10 +12,42 @@
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
 <script src="../static/script.js" type="text/javascript"></script>
-<script type=text/javascript>
-   
-</script>
+  <script type="text/JavaScript">
+    //get a reference to the select element
+    var $select = $('select-from');</code>
+    var servid = this.data('select-service')
+    //request the JSON data and parse into the select element
+    $.getJSON('/GetStationsFrom/'+servid+'//', function(data){
+ 
+      //clear the current content of the select
+      $select.html('');
+ 
+      //iterate over the data and append a select option
+      $.each(data.Stations, function(key, val){ 
+        $select.append('<option id="' + val.StationID + '">' + val.DisplayName + '</option>');
+      })
+    });
+  </script>
+  <script type="text/JavaScript">
+    //get a reference to the select element
+    var $select = $('select-to');</code>
+    var servid = this.data('select-service')
+    var statid = this.data('select-from')
+    //request the JSON data and parse into the select element
+    $.getJSON('/GetStationsFrom/'+servid+'/'+statid+'/', function(data){
+ 
+      //clear the current content of the select
+      $select.html('');
+ 
+      //iterate over the data and append a select option
+      $.each(data.Stations, function(key, val){ 
+        $select.append('<option id="' + val.StationID + '">' + val.DisplayName + '</option>');
+      })
+    });
+  </script> 
+  
 </head> 
 
 <body>
@@ -49,17 +81,16 @@
 		</div>
         
         <div class="ui-field-contain">
-    		<label for="select-service">LIRR/NJT:</label>
-            <select name="select-custom-1" data-native-menu="false" id="select-service-register">
+    		<label for="select-service-register">LIRR/NJT:</label>
+            <select name="select-custom-1" id="select-service-register">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
         </div>
     	   
         <div class="ui-field-contain">
-    		<label for="select-from">Home Station:</label>
-            <select name="select-custom-1" data-native-menu="false" id="select-from-register">
-                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+    		<label for="select-from-register">Home Station:</label>
+            <select name="select-custom-1" id="select-from-register">
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
                 <option value="3">Station 3</option>
@@ -69,7 +100,7 @@
         
         <div class="ui-field-contain">
     		<label for="select-to">Favorite Destination:</label>
-            <select name="select-custom-1" data-native-menu="false" id="select-to-register">
+            <select name="select-custom-1" id="select-to-register">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -137,14 +168,14 @@
 	<div data-role="main" class="ui-content">
     	<div class="ui-field-contain">
     		<label for="select-service">LIRR/NJT:</label>
-            <select name="select-service" data-native-menu="false" id="select-service">
+            <select name="select-service" id="select-service">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
         </div>	
         <div class="ui-field-contain">
     		<label for="select-from">Origin Station:</label>
-            <select name="select-from" data-native-menu="false" id="select-from">
+            <select name="select-from" id="select-from">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -154,7 +185,7 @@
         </div>
         <div class="ui-field-contain">
             <label for="select-to">Destination Station:</label>
-            <select name="select-to" data-native-menu="false" id="select-to">
+            <select name="select-to" id="select-to">
                 <!-- <option value="choose-one" data-placeholder="true">Destination Station...</option> -->
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
@@ -164,7 +195,7 @@
         </div>
         <div class="ui-field-contain">
             <label for="notifTime">Notification Time:</label>
-            <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />
+    	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />	
         </div>
         <img src="../static/findmytrain.png" width="166" height="159" alt="" align="middle"/>
 	</div>

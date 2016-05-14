@@ -43,7 +43,7 @@ $(document).on('pageinit', '#loginPage', function(){
 	    if($('#login-email').val().length > 0 && $('#login-password').val().length > 0){
             $.ajax({url: 'http://websys3.stern.nyu.edu:7006/login',
                 	data: $('#login-form').serialize(),
-                	type: 'post',                   
+                	type: 'POST',                   
                 	async: 'true',
                     dataType: 'json',
                 	beforeSend: function() {
