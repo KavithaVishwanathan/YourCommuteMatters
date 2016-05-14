@@ -66,17 +66,17 @@
     <div data-role="main" class="ui-content">
         <form id="register-form" method="post" action="/register">
     	<div class="ui-field-contain">
-        	<label for="text-basic">Name</label>
-			<input type="text" name="text-basic" id="register-name" value="">
+        	<label for="register-name">Name</label>
+			<input type="text" name="name" id="register-name" value="">
         </div>
         
         <div class="ui-field-contain">
-        	<label for="email">Email</label>
+        	<label for="register-email">Email</label>
 			<input type="email" name="email" id="register-email" value="">
         </div>
         
         <div class="ui-field-contain">
-        	<label for="password">Password:</label>
+        	<label for="register-password">Password:</label>
 			<input type="password" name="password" id="register-password" value="" autocomplete="off">
 		</div>
         
@@ -99,7 +99,7 @@
         </div>
         
         <div class="ui-field-contain">
-    		<label for="select-to">Favorite Destination:</label>
+    		<label for="select-to-register">Favorite Destination:</label>
             <select name="select-custom-1" id="select-to-register">
                 <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
                 <option value="1">Station 1</option>
@@ -134,12 +134,12 @@
     <div data-role="main" class="ui-content">
         <form id="login-form" method="post" action="/login">      
         <div class="ui-field-contain">
-        	<label for="email">Email</label>
+        	<label for="login-email">Email</label>
 			<input type="email" name="email" id="login-email" value="">
         </div>
         
         <div class="ui-field-contain">
-        	<label for="password">Password:</label>
+        	<label for="login-password">Password:</label>
 			<input type="password" name="password" id="login-password" value="" autocomplete="off">
 		</div>
         
@@ -195,9 +195,11 @@
         </div>
         <div class="ui-field-contain">
             <label for="notifTime">Notification Time:</label>
-    	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />	
+    	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}'/>	
         </div>
-        <img src="../static/findmytrain.png" width="166" height="159" alt="" align="middle"/>
+        <div class="ui-field-contain">
+            <button class="ui-shadow ui-btn ui-corner-all" data-theme='b' id="find-my-train-btn">Find My Train</button>
+        </div>
 	</div>
 
 	<div data-role="footer" data-theme="b">
@@ -238,9 +240,45 @@
         </div>
     </div>
 
-    <div data-role="main" class="ui-content">   
-        <p> Fill content </p>
-    </div>
+    <form id="register-form" method="post" action="/register">
+        <div class="ui-field-contain">
+            <label for="profile-name">Name</label>
+            <input type="text" name="name" id="profile-name" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+            <label for="select-service-profile">LIRR/NJT:</label>
+            <select name="select-custom-1" id="select-service-profile">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>
+           
+        <div class="ui-field-contain">
+            <label for="select-from-profile">Home Station:</label>
+            <select name="select-custom-1" id="select-from-profile">
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+            <label for="select-to-profile">Favorite Destination:</label>
+            <select name="select-custom-1" id="select-to-profile">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+            <button class="ui-shadow ui-btn ui-corner-all" id="update-btn">Update</button>
+        </div>
+        </form>
 
     <div data-role="footer" data-theme="b">
         <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
