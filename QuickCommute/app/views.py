@@ -36,13 +36,19 @@ class User(db.Model):
   email = db.Column('email', db.String(45), unique=True)
   name = db.Column('Name', db.String(45))
   password = db.Column('Password', db.String(128))
+  homeStation = db.Column('HomeStationID', db.ForeignKey('Stations.StationID'))
+  favStation = db.Column('FavoriteStationID', db.ForeignKey('Stations.StationID'))
+  service = db.Column('ServiceID', db.ForeignKey('Services.ServiceID'))
   registration_time = db.Column('RegistrationTime', db.DateTime)
     
-  def __init__(self, email, name, password):
+  def __init__(self, email, name, password, homeSt, favSt, service, time):
     self.email = email
     self.set_password(password)
     self.name = name
-    self.registered_time = datetime.utcnow()
+    self.homeStation = homeSt
+    self.favStation = favSt
+    self.service = service
+    self.registered_time = time
  
   def set_password(self,password):
     self.password = generate_password_hash(password)
@@ -107,7 +113,12 @@ def register():
   name = request.form['name']
   email = request.form['email']
   password = request.form['password']
-  user = User(email,name,password)
+  homeSt = request.form['select-from-register']
+  favSt = request.form['select-to-register']
+  print favSt
+  service = request.form['select-service-register']
+  print service
+  user = User(email,name,password, homeSt, favSt, service, datetime.utcnow())
   db.session.add(user)
   db.session.commit()
   flash('User registered successfully!!')
