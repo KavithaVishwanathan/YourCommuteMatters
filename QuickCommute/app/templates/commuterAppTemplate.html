@@ -16,7 +16,7 @@
 <script src="../static/script.js" type="text/javascript"></script>
   <script type="text/JavaScript">
     //get a reference to the select element
-    var $select = $('select-from');</code>
+    var $select = $('#select-from');</code>
     var servid = this.data('select-service')
     //request the JSON data and parse into the select element
     $.getJSON('/GetStationsFrom/'+servid+'//', function(data){
@@ -32,7 +32,7 @@
   </script>
   <script type="text/JavaScript">
     //get a reference to the select element
-    var $select = $('select-to');</code>
+    var $select = $('#select-to');</code>
     var servid = this.data('select-service')
     var statid = this.data('select-from')
     //request the JSON data and parse into the select element
