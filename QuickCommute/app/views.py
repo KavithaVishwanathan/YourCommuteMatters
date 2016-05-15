@@ -28,7 +28,7 @@ def load_user(id):
   return User.query.get(int(id))
 
 def get_current_user():
-  print "user" + current_user
+  print current_user
   return current_user
 
 class User(db.Model):
@@ -109,7 +109,6 @@ db.create_all()
 @app.route('/register', methods=['GET','POST'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
-  get_current_user()
   if request.method == 'GET':
     return render_template('register.html')
   name = request.form['name']
@@ -129,13 +128,14 @@ def register():
 @app.route('/login', methods=['POST'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
+  get_current_user()
   email = request.form['email']
   password = request.form['password']
 
   registered_user = User.query.filter_by(email=email).first()
   #registered_user = User.query.filter_by(email=email).first()
   #flash(registered_user.check_password(registered_user.password))
-
+  print "login" + registered_user.email
   if registered_user and registered_user.check_password(password):
     login_user(registered_user)
     return jsonify({'status':'success'}), 201
@@ -145,11 +145,12 @@ def login():
 @app.route('/profile', methods=['POST'])
 def updateProfile():
   user = get_current_user()
+  print user.name
   homeSt = request.form['select-from-register']
   favSt = request.form['select-to-register']
   service = request.form['select-service-register']
 
-  registered_user = User.query.filter_by(userId=user).first()
+  registered_user = User.query.filter_by(userId=user.id).first()
   print registered_user.name
   #registered_user = User.query.filter_by(email=email).first()
   #flash(registered_user.check_password(registered_user.password))
