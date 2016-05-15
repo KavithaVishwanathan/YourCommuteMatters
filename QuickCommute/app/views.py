@@ -126,7 +126,7 @@ def register():
   flash('User registered successfully!!')
   return jsonify({ 'email': email, 'status' : 'success' }), 201
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/login', methods=['POST'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
   email = request.form['email']
