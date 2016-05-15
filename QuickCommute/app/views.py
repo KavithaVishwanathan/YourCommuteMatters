@@ -142,9 +142,9 @@ def login():
 def updateProfile():
   user = get_current_user()
   user.name = request.form['name']
-  user.homeStation = request.form['select-from-register']
-  user.favStation = request.form['select-to-register']
-  user.service = request.form['select-service-register']
+  user.homeStation = request.form['select-from-profile']
+  user.favStation = request.form['select-to-profile']
+  user.service = request.form['select-service-profile']
   db.session.commit()
   return jsonify({'status':'success'}), 201
 
