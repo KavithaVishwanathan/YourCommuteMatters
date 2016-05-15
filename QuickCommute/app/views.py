@@ -18,7 +18,7 @@ db = SQLAlchemy(app)
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
-@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+#@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 
 lm = LoginManager()
 lm.init_app(app)
