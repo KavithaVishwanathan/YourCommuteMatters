@@ -14,9 +14,10 @@
 <script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
     <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
 <script src="../static/script.js" type="text/javascript"></script>
-  <script type="text/JavaScript">
+
+<script type="text/javaScript">
     //get a reference to the select element
-    var $select = $('#select-from');</code>
+    var $select = $('#select-from');
     var servid = this.data('select-service')
     //request the JSON data and parse into the select element
     $.getJSON('/GetStationsFrom/'+servid+'//', function(data){
@@ -30,9 +31,9 @@
       })
     });
   </script>
-  <script type="text/JavaScript">
+  <script type="text/javaScript">
     //get a reference to the select element
-    var $select = $('#select-to');</code>
+    var $select = $('#select-to');
     var servid = this.data('select-service')
     var statid = this.data('select-from')
     //request the JSON data and parse into the select element

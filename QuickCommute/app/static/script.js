@@ -77,7 +77,7 @@ $(document).on('pageinit', '#loginPage', function(){
 // Update Profile
 $(document).on('pageinit', '#page3', function(){  
     $(document).on('click', '#update-btn', function() {
-        if($('#profile-name').val().length > 0{        
+        if($('#profile-name').val().length > 0){        
             $.ajax({url: 'http://websys3.stern.nyu.edu:7006/profile',
                     data: $('#profile-form').serialize(),
                     type: 'POST',                   
