@@ -2,7 +2,6 @@ from flask import jsonify, render_template, request, flash, url_for, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, login_user , logout_user , current_user , login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-import time
 from app import app
 from datetime import datetime
 #from mysql.connector import (connection)
@@ -10,8 +9,6 @@ import MySQLdb
 import json
 import sys
 import urllib2
-import numpy as np
-import pandas as pd
 from crossdomain import crossdomain
 from flask.ext.cors import CORS, cross_origin
 from xml.etree import cElementTree as ET
@@ -29,6 +26,10 @@ lm.login_view = 'login'
 @lm.user_loader
 def load_user(id):
   return User.query.get(int(id))
+
+def get_current_user():
+  print current_user
+  return current_user
 
 class User(db.Model):
   __tablename__ = "UserProfile"
@@ -108,6 +109,7 @@ db.create_all()
 @app.route('/register', methods=['GET','POST'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def register():
+  get_current_user()
   if request.method == 'GET':
     return render_template('register.html')
   name = request.form['name']
@@ -143,10 +145,23 @@ def login():
   else:
     return jsonify({"status":"failure", "message": "invalid password"}), 201
 
-@app.route('/',methods=['GET','POST'])
-def landing():
-  if request.method == 'GET':
-    return render_template('commuterAppTemplate.html')
+@app.route('/profile', methods=['POST'])
+def updateProfile():
+  get_current_user()
+  homeSt = request.form['select-from-register']
+  favSt = request.form['select-to-register']
+  print favSt
+  service = request.form['select-service-register']
+
+  registered_user = User.query.filter_by(email=email).first()
+  #registered_user = User.query.filter_by(email=email).first()
+  #flash(registered_user.check_password(registered_user.password))
+
+  if registered_user and registered_user.check_password(password):
+    login_user(registered_user)
+    return jsonify({'status':'success'}), 201
+  else:
+    return jsonify({"status":"failure", "message": "invalid password"}), 201
 
 @app.route('/GetStationName',methods = ['GET'])
 def GetStationName(StationID1,StationID2):
@@ -317,5 +332,7 @@ def GetTrains(Service,FROM,TO,HOUR,MIN):
         json_output = json.dumps(output)     
     return json_output
 
-#if __name__ == "__main__":
- # app.run(host='0.0.0.0', port=7006, debug=True) 
+ @app.route('/',methods=['GET','POST'])
+def landing():
+  if request.method == 'GET':
+    return render_template('commuterAppTemplate.html')
