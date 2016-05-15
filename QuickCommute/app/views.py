@@ -18,6 +18,7 @@ db = SQLAlchemy(app)
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 
 lm  = LoginManager()
 lm.init_app(app)
@@ -73,13 +74,12 @@ class User(db.Model):
       return str(self.id)  # python 3
   
   def __repr__(self):
-    return '<User %r>' % (self.firstname)
+    return '<User %r>' % (self.name)
 
 class Stations(db.Model):
   __tablename__ = "Stations"
   stationid = db.Column('StationID', db.String(11), primary_key = True)
   stationname = db.Column('StationName', db.String(45))
-  BranchID = db.Column('BranchID', db.ForeignKey('Branches.BranchID'))
   
   def __repr__(self):
     return '<Stations %r>' % (self.stationname)
@@ -93,7 +93,6 @@ class Branches(db.Model):
   __tablename__ = "Branches"
   BranchID = db.Column('BranchID', db.Integer, primary_key = True)
   branchname = db.Column('BranchName', db.String(45))
-  ServiceID = db.Column('ServiceID', db.ForeignKey('Services.ServiceID'))
   def __repr__(self):
     return '<Branches %r>' % (self.branchname)
 
@@ -104,21 +103,22 @@ class Services(db.Model):
   def __repr__(self):
     return '<Services %r>' % (self.servicename)
 
+class StationBranch(db.Model):
+  __tablename__ = "STATIONBRANCH"
+  ServiceID_fx = db.Column('ServiceID_fx', db.ForeignKey('Services.ServiceID'))
+  StationID = db.Column('StationID', db.ForeignKey('Stations.StationID'))
+  BranchID = db.Column('BranchID', db.ForeignKey('Branches.BranchID'))
+
 db.create_all()
 
-@app.route('/register', methods=['GET','POST'])
-@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+@app.route('/register', methods=['POST'])
 def register():
-  if request.method == 'GET':
-    return render_template('register.html')
   name = request.form['name']
   email = request.form['email']
   password = request.form['password']
   homeSt = request.form['select-from-register']
   favSt = request.form['select-to-register']
-  print favSt
   service = request.form['select-service-register']
-  print service
   user = User(email,name,password, homeSt, favSt, service, datetime.utcnow())
   db.session.add(user)
   db.session.commit()
@@ -126,16 +126,12 @@ def register():
   return jsonify({ 'email': email, 'status' : 'success' }), 201
 
 @app.route('/login', methods=['POST'])
-@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
   get_current_user()
   email = request.form['email']
   password = request.form['password']
 
   registered_user = User.query.filter_by(email=email).first()
-  #registered_user = User.query.filter_by(email=email).first()
-  #flash(registered_user.check_password(registered_user.password))
-  print "login" + registered_user.email
   if registered_user and registered_user.check_password(password):
     login_user(registered_user)
     return jsonify({'status':'success'}), 201
@@ -145,32 +141,28 @@ def login():
 @app.route('/profile', methods=['POST'])
 def updateProfile():
   user = get_current_user()
-  print user.name
-  homeSt = request.form['select-from-register']
-  favSt = request.form['select-to-register']
-  service = request.form['select-service-register']
-
-  registered_user = User.query.filter_by(userId=user.id).first()
-  print registered_user.name
-  #registered_user = User.query.filter_by(email=email).first()
-  #flash(registered_user.check_password(registered_user.password))
+  user.name = request.form['name']
+  user.homeStation = request.form['select-from-register']
+  user.favStation = request.form['select-to-register']
+  user.service = request.form['select-service-register']
+  db.session.commit()
   return jsonify({'status':'success'}), 201
 
 @app.route('/GetStationName',methods = ['GET'])
 def GetStationName(StationID1,StationID2):
-    db = MySQLdb.connect(user='websysS16GB6', passwd='websysS16GB6!!',host='websys3.stern.nyu.edu',db = 'websysS16GB6')
-    cursor1 = db.cursor()
-    select_station1 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID1)
-    cursor1.execute(select_station1)
-    St1 = cursor1.fetchone()
-    cursor1.close()
-    cursor2 = db.cursor()
-    select_station2 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID2)
-    cursor2.execute(select_station2)
-    St2 = cursor2.fetchone()
-    cursor2.close()
-    db.close()
-    return St1[0], St2[0]
+  db = MySQLdb.connect(user='websysS16GB6', passwd='websysS16GB6!!',host='websys3.stern.nyu.edu',db = 'websysS16GB6')
+  cursor1 = db.cursor()
+  select_station1 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID1)
+  cursor1.execute(select_station1)
+  St1 = cursor1.fetchone()
+  cursor1.close()
+  cursor2 = db.cursor()
+  select_station2 = "SELECT StationName FROM Stations WHERE StationID = '%s'"%(StationID2)
+  cursor2.execute(select_station2)
+  St2 = cursor2.fetchone()
+  cursor2.close()
+  db.close()
+  return St1[0], St2[0]
 
 @app.route('/GetStationsFrom/<string:ServiceID>/<string:Char>/', methods = ['GET','POST'])
 def GetStationsFrom(ServiceID,Char):
