@@ -7,7 +7,7 @@ $(document).on('pageinit', '#registerPage', function(){
                     data: $('#register-form').serialize(),
                     type: 'POST',                   
                     async: 'true',
-		    dataType: 'json',
+		            dataType: 'json',
 		   
                     beforeSend: function() {
                         $.mobile.loading('show');
@@ -72,4 +72,42 @@ $(document).on('pageinit', '#loginPage', function(){
     	}           
 	    return false; // cancel original event to prevent form submitting
 	});    
+});
+
+// Update Profile
+$(document).on('pageinit', '#page3', function(){  
+    $(document).on('click', '#update-btn', function() {
+        if($('#profile-name').val().length > 0{        
+            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/profile',
+                    data: $('#profile-form').serialize(),
+                    type: 'POST',                   
+                    async: 'true',
+                    dataType: 'json',
+           
+                    beforeSend: function() {
+                        $.mobile.loading('show');
+                    },
+                
+                    complete: function() {
+                        $.mobile.loading('hide');
+                    },
+   
+                    success: function (result) {
+                        if(result.status && result.status == "success") {
+                            $.mobile.changePage("#page3");                         
+                        } else {
+                            alert('Update unsuccessful! - Try again Later'); 
+                        }
+                    },
+                
+                    error: function (request,error) {
+                        alert('Network error has occurred please try again!');
+                    }
+            });                   
+    
+        } else {
+            alert('Please fill all necessary fields');
+        }           
+        return false;
+    });    
 });

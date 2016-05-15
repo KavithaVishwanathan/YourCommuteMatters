@@ -28,7 +28,7 @@ def load_user(id):
   return User.query.get(int(id))
 
 def get_current_user():
-  print current_user
+  print "user" + current_user
   return current_user
 
 class User(db.Model):
@@ -147,21 +147,16 @@ def login():
 
 @app.route('/profile', methods=['POST'])
 def updateProfile():
-  get_current_user()
+  user = get_current_user()
   homeSt = request.form['select-from-register']
   favSt = request.form['select-to-register']
-  print favSt
   service = request.form['select-service-register']
 
-  registered_user = User.query.filter_by(email=email).first()
+  registered_user = User.query.filter_by(userId=user).first()
+  print registered_user.name
   #registered_user = User.query.filter_by(email=email).first()
   #flash(registered_user.check_password(registered_user.password))
-
-  if registered_user and registered_user.check_password(password):
-    login_user(registered_user)
-    return jsonify({'status':'success'}), 201
-  else:
-    return jsonify({"status":"failure", "message": "invalid password"}), 201
+  return jsonify({'status':'success'}), 201
 
 @app.route('/GetStationName',methods = ['GET'])
 def GetStationName(StationID1,StationID2):
