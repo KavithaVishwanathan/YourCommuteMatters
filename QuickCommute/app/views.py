@@ -105,9 +105,9 @@ class Services(db.Model):
 
 class StationBranch(db.Model):
   __tablename__ = "STATIONBRANCH"
-  ServiceID_fx = db.Column('ServiceID_fx', primary_key = True, db.ForeignKey('Services.ServiceID'))
-  StationID = db.Column('StationID', primary_key = True, db.ForeignKey('Stations.StationID'))
-  BranchID = db.Column('BranchID', primary_key = True, db.ForeignKey('Branches.BranchID'))
+  ServiceID_fx = db.Column('ServiceID_fx', db.ForeignKey('Services.ServiceID'), primary_key = True)
+  StationID = db.Column('StationID', db.ForeignKey('Stations.StationID'), primary_key = True)
+  BranchID = db.Column('BranchID', db.ForeignKey('Branches.BranchID'), primary_key = True)
 
 db.create_all()
 
