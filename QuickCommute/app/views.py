@@ -80,6 +80,7 @@ class Stations(db.Model):
   __tablename__ = "Stations"
   stationid = db.Column('StationID', db.String(11), primary_key = True)
   stationname = db.Column('StationName', db.String(45))
+  ServiceID_s_fx = db.Column('ServiceID_s_fx', db.ForeignKey('Services.ServiceID'))
   
   def __repr__(self):
     return '<Stations %r>' % (self.stationname)
@@ -93,6 +94,7 @@ class Branches(db.Model):
   __tablename__ = "Branches"
   BranchID = db.Column('BranchID', db.Integer, primary_key = True)
   branchname = db.Column('BranchName', db.String(45))
+  ServiceID_b_fx = db.Column('ServiceID_b_fx', db.ForeignKey('Services.ServiceID'))
   def __repr__(self):
     return '<Branches %r>' % (self.branchname)
 
