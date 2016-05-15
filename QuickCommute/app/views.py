@@ -332,7 +332,7 @@ def GetTrains(Service,FROM,TO,HOUR,MIN):
         json_output = json.dumps(output)     
     return json_output
 
- @app.route('/',methods=['GET','POST'])
+@app.route('/',methods=['GET','POST'])
 def landing():
   if request.method == 'GET':
     return render_template('commuterAppTemplate.html')
