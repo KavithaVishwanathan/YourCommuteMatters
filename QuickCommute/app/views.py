@@ -3,7 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, login_user , logout_user , current_user , login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app
-from datetime import datetime
+import datetime
 #from mysql.connector import (connection)
 import MySQLdb
 import json
@@ -181,7 +181,8 @@ def GetStationsFrom(ServiceID):
                          FROM Stations S,\
                               Services V\
                         WHERE S.ServiceID_s_fx = V.ServiceID AND\
-                              V.ServiceID      = %s")%(ServiceID)
+                              V.ServiceID      = %s\
+                       ORDER BY S.StationName")%(ServiceID)
     cursor.execute(select_station)
     Stations = []
     for ServiceID, StationID, StationName, DisplayName in cursor:
@@ -258,7 +259,7 @@ def GetTrains(Service,FROM,TO,HOUR,MIN):
     DAY = today.day
     trains = []
     reqtime = datetime.datetime(YEAR,MONTH,DAY,int(HOUR),int(MIN))
-    if Service == 'LIRR':
+    if Service == '1': #LIRR
         urlData = ('https://traintime.lirr.org/api/TrainTime?api_key=%3CYOUR_KEY%3E&startsta={0}&endsta={1}&year={2}&month={3}&day={4}&hour={5}&minute={6}&datoggle=d'.format(FROM,TO,YEAR,MONTH,DAY,HOUR,MIN))
         webUrl = urllib2.urlopen(urlData)
         data = webUrl.read()
@@ -279,7 +280,7 @@ def GetTrains(Service,FROM,TO,HOUR,MIN):
         output = {}
         output["TRAINS"] = trains
         json_output = json.dumps(output)
-    elif Service == 'NJT':
+    elif Service == '2': #NJT
         FROMName,TOName = GetStationName(FROM,TO)
         username = 'aporcel'
         #password = 'S2PC4VhL3JgE7W'
@@ -293,9 +294,11 @@ def GetTrains(Service,FROM,TO,HOUR,MIN):
         for trip in Trips:
             stops = trip["STOPS"]
             tripTime = datetime.datetime.strptime(trip["SCHED_DEP_DATE"],"%d-%b-%Y %I:%M:%S %p")
-            IsInStop = False
-            if isinstance(stops["STOP"],dict):
-                IsInStop = stops["STOP"]["NAME"] == TOName
+            IsInStop = False            
+	    if stops is None:
+                IsInStop = False
+	    elif type(stops["STOP"]) is dict:
+            	IsInStop = stops["STOP"]["NAME"] == TOName
             else:
                 FlagCheckTO = False
                 for stop in stops["STOP"]:
