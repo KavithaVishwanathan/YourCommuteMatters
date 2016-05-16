@@ -145,7 +145,7 @@
 		xmlhttp.send();
 					
 		function populateTrains(arr) {
-			var out = '<table data-role="table" class="ui-responsive" id="FoundTrain"><tr><th>Train ID</th> <th>Track</th><th>Dep. Time</th></tr>';
+			var out = '<table id="FoundTrain"><tr><th>Train ID</th> <th>Track</th><th>Dep. Time</th></tr>';
 			var i;
 			var arrSts = arr.TRAINS;
 			for(i = 0; i < arrSts.length; i++) {
