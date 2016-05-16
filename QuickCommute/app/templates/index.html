@@ -64,7 +64,8 @@
 			var i;
 			var arrSts = arr.Stations;
 			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+				out += '<option value="' + arrSts[i].StationsID + '"> ' + arrSts[i].DisplayName + '</option><br>';
+                console.log(arrSts[i].StationsID)
 			}
 			document.getElementById("select-from-register").innerHTML = out;
 			
@@ -117,12 +118,13 @@
        //alert( $(this).find(":selected").val() );
     function OnSelFromChangeRegister(sel){
 		var xmlhttp = new XMLHttpRequest();
-		var servid2 = document.getElementById("select-service").value;
+		var servid2 = document.getElementById("select-service-register").value;
 		var ind = sel.selectedIndex
 		//var stid2 = sel.options[sel.selectedIndex].value;//$(this).find(":selected").val();
 		
-		var stid2 = sel.options[ind].value;
+		//var stid2 = sel.options[ind].value;
 		//stid2='NY'
+        var stid2 = document.getElementById("select-from-register").value;
 		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
 		//alert("stid2 = " + stid2 + "!! " + sel.options[ind].value );			
 		
@@ -141,6 +143,7 @@
 			var arrSts = arr.Stations;
 			for(i = 0; i < arrSts.length; i++) {
 				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+                console.log(arrSts[i].StationsID)
 			}
 			document.getElementById("select-to-register").innerHTML = out;
 			$("#select-to-register").prop("disabled", false);
@@ -312,13 +315,15 @@
             <select disabled name="select-to" id="select-to">
            </select>
         </div>
+        <!--
         <div class="ui-field-contain">
 	      <a href="#page2" name="find-my-train" id="find-my-train" type="button">
-                 <img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
+                 <img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" />
              </a>
         </div>
+    -->
         <div class="ui-field-contain">
-            <button class="ui-shadow ui-btn ui-corner-all" data-theme="b" id="find-my-train-btn">Find My Train</button>
+            <button class="ui-shadow ui-btn ui-corner-all" data-theme="b" name ="find-my-train" id="find-my-train" onclick="OnFindTrain()">Find My Train</button>
         </div>
 	</div>
 
