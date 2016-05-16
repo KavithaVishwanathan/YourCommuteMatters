@@ -15,70 +15,10 @@
     <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
 <script src="../static/script.js" type="text/javascript"></script>
 
-<script type="text/JavaScript">
+  <script type="text/JavaScript">
     function OnServChange(){
 		var xmlhttp = new XMLHttpRequest();
-		var servid1 = document.getElementById("select-service").value;////this.("select-service");
-		var url = "/GetStationsFrom/"+servid1+"/";
-					
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateFrom(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateFrom(arr) {
-			var out = "";
-			var i;
-			var arrSts = arr.Stations;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
-			}
-			document.getElementById("select-from").innerHTML = out;
-			
-		};
-
-	};
-
-  </script>
-  <script type="text/JavaScript">
-    function OnServChangeRegister(){
-		var xmlhttp = new XMLHttpRequest();
-		var servid1 = document.getElementById("select-service-register").value;////this.("select-service");
-		var url = "/GetStationsFrom/"+servid1+"/";
-					
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateFrom(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateFrom(arr) {
-			var out = "";
-			var i;
-			var arrSts = arr.Stations;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationsID + '"> ' + arrSts[i].DisplayName + '</option><br>';
-                //console.log(arrSts[i].StationsID);
-			}
-			document.getElementById("select-from-register").innerHTML = out;
-			
-		};
-
-	};
-
-  </script>
-  <script type="text/JavaScript">
-
-    function OnServChange(){
-		var xmlhttp = new XMLHttpRequest();
-		var servid1 = document.getElementById("select-service").value;////this.("select-service");
+		var servid1 = document.getElementById("select-service").value;
 		var url = "/GetStationsFrom/"+servid1+"/";
 					
 		xmlhttp.onreadystatechange = function(){
@@ -98,12 +38,35 @@
 				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
 			}
 			document.getElementById("select-from").innerHTML = out;
-			
 		};
-
 	};
-
   </script>
+  <script type="text/JavaScript">
+    function OnServChangeSection(section){
+		var xmlhttp = new XMLHttpRequest();
+		var servid1 = document.getElementById("select-service-"+section).value;
+		var url = "/GetStationsFrom/"+servid1+"/";
+					
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateFrom(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateFrom(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-from-"+section).innerHTML = out;
+		};
+	};
+  </script>	
   <script type="text/JavaScript">
     function OnSelFromChange(sel){
 		var xmlhttp = new XMLHttpRequest();
@@ -129,7 +92,34 @@
 				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
 			}
 			document.getElementById("select-to").innerHTML = out;
-			$("#select-to").prop('disabled', false);
+		};
+	};
+  </script>
+  <script type="text/JavaScript">
+    function OnSelFromChangeSection(section,sel){
+		var xmlhttp = new XMLHttpRequest();
+		var servid2 = document.getElementById("select-service-"+section).value;
+		var ind = sel.selectedIndex
+		var stid2 = sel.options[sel.selectedIndex].value;
+		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
+		
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateTo(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateTo(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-to-"+section).innerHTML = out;
 		};
 
 	};
@@ -203,7 +193,7 @@
         
         <div class="ui-field-contain">
     		<label for="select-service-register">LIRR/NJT:</label>
-            <select name="select-service-register" id="select-service-register" onchange="OnServChangeRegister()">
+            <select name="select-service-register" id="select-service-register" onfocus="OnServChangeSection('register')" onchange="OnServChangeSection('register')">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
@@ -211,7 +201,7 @@
     	   
         <div class="ui-field-contain">
     		<label for="select-from-register">Home Station:</label>
-            <select name="select-from-register" id="select-from-register" onblur="OnSelFromChangeRegister(this)">
+            <select name="select-from-register" id="select-from-register" onblur="OnSelFromChangeSection('register',this)">
             </select>
         </div>
         
@@ -375,7 +365,7 @@
         
         <div class="ui-field-contain">
             <label for="select-service-profile">LIRR/NJT:</label>
-            <select name="select-service-profile" id="select-service-profile">
+            <select name="select-service-profile" id="select-service-profile" onfocus="OnServChangeSection('profile')" onchange="OnServChangeSection('profile')">
                 <option value="1">LIRR</option>
                 <option value="2">NJT</option>
             </select>
@@ -383,7 +373,7 @@
            
         <div class="ui-field-contain">
             <label for="select-from-profile">Home Station:</label>
-            <select name="select-from-profile" id="select-from-profile">
+            <select name="select-from-profile" id="select-from-profile" onchange="OnSelFromChangeSection('profile',this)">
                 <option value="1">Station 1</option>
                 <option value="2">Station 2</option>
                 <option value="3">Station 3</option>
