@@ -166,11 +166,11 @@ def GetStationName(StationID1,StationID2):
   db.close()
   return St1[0], St2[0]
 
-@app.route('/GetStationsFrom/<string:ServiceID>/<string:Char>/', methods = ['GET','POST'])
-def GetStationsFrom(ServiceID,Char):
+@app.route('/GetStationsFrom/<string:ServiceID>/', methods = ['GET','POST'])
+def GetStationsFrom(ServiceID):
     db = MySQLdb.connect(user='websysS16GB6', passwd='websysS16GB6!!',host='websys3.stern.nyu.edu',db = 'websysS16GB6')
     cursor = db.cursor()
-    select_station = ("SELECT S.ServiceID,\
+    select_station = ("SELECT V.ServiceID,\
                               S.StationID,\
                               S.StationName,\
                               CASE S.StationID\
@@ -180,9 +180,8 @@ def GetStationsFrom(ServiceID,Char):
                               END AS DisplayName\
                          FROM Stations S,\
                               Services V\
-                        WHERE S.ServiceID = V.ServiceID AND\
-                              V.ServiceID = %s AND\
-                              UPPER(S.StationName) LIKE '%s'")%(ServiceID,"%"+Char.upper()+"%")
+                        WHERE S.ServiceID_s_fx = V.ServiceID AND\
+                              V.ServiceID      = %s")%(ServiceID)
     cursor.execute(select_station)
     Stations = []
     for ServiceID, StationID, StationName, DisplayName in cursor:
@@ -211,28 +210,28 @@ def GetStationsTo(ServID,StatID):
        SELECT S.ServiceID,\
               S.StationID,\
               CASE S.StationID\
-                  WHEN 'TS' THEN CONCAT('Secaucus Lower Level : ',S.BranchesName)\
-                  WHEN 'SE' THEN CONCAT('Secaucus Upper Level : ',S.BranchesName)\
-                  ELSE  CONCAT(S.StationName,' : ',S.BranchesName)\
+                  WHEN 'TS' THEN CONCAT('Secaucus Lower Level:',S.BranchesName)\
+                  WHEN 'SE' THEN CONCAT('Secaucus Upper Level:',S.BranchesName)\
+                  ELSE  CONCAT(S.StationName,':',S.BranchesName)\
               END AS DisplayName,\
               S.StationName\
-         FROM (  SELECT SB.ServiceID,\
+         FROM (  SELECT SB.ServiceID_fx AS ServiceID,\
                         SB.StationID,\
-                        GROUP_CONCAT(DISTINCT B.BranchName ORDER BY B.BranchID DESC SEPARATOR ' - ') AS BranchesName,\
+                        GROUP_CONCAT(DISTINCT B.BranchName ORDER BY B.BranchID SEPARATOR '/') AS BranchesName,\
                         S.StationName\
                    FROM STATIONBRANCH SB,\
                         Stations S,\
                         Branches B\
-                  WHERE SB.ServiceID = S.ServiceID AND\
-                        SB.StationID = S.StationID AND\
-                        SB.ServiceID = B.ServiceID AND\
-                        SB.BranchID  = B.BranchID  AND\
-                        SB.StationID NOT IN ('{1}') AND\
-                        (SB.ServiceID,SB.BranchID) IN (  SELECT SB1.ServiceID,SB1.BranchID\
-                                                           FROM STATIONBRANCH SB1\
-                                                          WHERE SB1.ServiceID = '{0}' AND\
-                                                                SB1.StationID IN ('{1}'))\
-               GROUP BY SB.ServiceID,SB.StationID,S.StationName) S\
+                  WHERE SB.ServiceID_fx = S.ServiceID_s_fx AND\
+                        SB.StationID    = S.StationID      AND\
+                        SB.ServiceID_fx = B.ServiceID_b_fx AND\
+                        SB.BranchID     = B.BranchID       AND\
+                        SB.StationID NOT IN ('{1}')        AND\
+                        (SB.ServiceID_fx,SB.BranchID) IN (  SELECT SB1.ServiceID_fx,SB1.BranchID\
+                                                              FROM STATIONBRANCH SB1\
+                                                             WHERE SB1.ServiceID_fx = '{0}' AND\
+                                                                   SB1.StationID IN ('{1}'))\
+               GROUP BY SB.ServiceID_fx,SB.StationID,S.StationName) S\
     ORDER BY S.StationName;").format(ServID,StID)
     cursor.execute(select_station)
     Stations = []
