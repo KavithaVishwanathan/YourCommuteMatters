@@ -1,0 +1,409 @@
+<!DOCTYPE html> 
+<html>
+
+<head>
+
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<title>Find My Train</title>
+<link href="static/commuter.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.css">
+<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
+<script src="../static/script.js" type="text/javascript"></script>
+
+<script type="text/JavaScript">
+    function OnServChange(){
+		var xmlhttp = new XMLHttpRequest();
+		var servid1 = document.getElementById("select-service").value;////this.("select-service");
+		var url = "/GetStationsFrom/"+servid1+"/";
+					
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateFrom(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateFrom(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-from").innerHTML = out;
+			
+		};
+
+	};
+
+  </script>
+  <script type="text/JavaScript">
+    function OnServChangeRegister(){
+		var xmlhttp = new XMLHttpRequest();
+		var servid1 = document.getElementById("select-service-register").value;////this.("select-service");
+		var url = "/GetStationsFrom/"+servid1+"/";
+					
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateFrom(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateFrom(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-from-register").innerHTML = out;
+			
+		};
+
+	};
+
+  </script>
+  <script type="text/JavaScript">
+
+    //$('select-from').on('change', function() {
+       //alert( $(this).find(":selected").val() );
+    function OnSelFromChange(sel){
+		var xmlhttp = new XMLHttpRequest();
+		var servid2 = document.getElementById("select-service").value;
+		var ind = sel.selectedIndex
+		//var stid2 = sel.options[sel.selectedIndex].value;//$(this).find(":selected").val();
+		
+		var stid2 = sel.options[ind].value;
+		//stid2='NY'
+		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
+		//alert("stid2 = " + stid2 + "!! " + sel.options[ind].value );			
+		
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateTo(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateTo(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-to").innerHTML = out;
+			$("#select-to").prop('disabled', false);
+		};
+
+	};
+
+  </script>
+  <script type="text/JavaScript">
+
+    //$('select-from').on('change', function() {
+       //alert( $(this).find(":selected").val() );
+    function OnSelFromChangeRegister(sel){
+		var xmlhttp = new XMLHttpRequest();
+		var servid2 = document.getElementById("select-service").value;
+		var ind = sel.selectedIndex
+		//var stid2 = sel.options[sel.selectedIndex].value;//$(this).find(":selected").val();
+		
+		var stid2 = sel.options[ind].value;
+		//stid2='NY'
+		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
+		//alert("stid2 = " + stid2 + "!! " + sel.options[ind].value );			
+		
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateToRegister(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateToRegister(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationsID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-to-register").innerHTML = out;
+			$("#select-to-register").prop("disabled", false);
+		};
+
+	};
+
+  </script>
+  <script type="text/JavaScript">
+
+    function OnFindTrain(){
+		var xmlhttp = new XMLHttpRequest();
+		var serv = document.getElementById("select-service").text;
+		var stFrom = document.getElementById("select-from").value;
+		var stTo = document.getElementById("select-to").value;
+		var time = document.getElementById("notifTime").value;
+		var hour = time.substring(0, time.indexOf(":")); 
+		var min = time.substring(time.indexOf(":") + 1,4); 
+		var url = "/GetTrains/"+serv+"/"+stFrom+"/"+stTo+"/"+hour+"/"+min+"/";
+		alert(url);
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateTrains(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateTrains(arr) {
+			var out = '<table brder ="1" style="width:100%"><tr><th>Train ID</th> <th>Track</th><th>Dep. Time</th></tr>';
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<tr> <td>' + arrSts[i].TrainID+ '</td> <td>' + arrSts[i].Track + '</td><td>' + arrSts[i].ETA + '</td></tr>';
+			}
+			out += '</table>';
+			document.getElementById("train-content").innerHTML = out;
+			
+		};
+
+	};
+  </script>  
+</head> 
+
+<body>
+
+<div data-role="page" id="registerPage">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#loginPage" data-transition="slide">Sign-In</a></li>
+            <li><a href="#registerPage" class="ui-btn-active" data-transition="slide">Register</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <form id="register-form" method="post" action="/register">
+    	<div class="ui-field-contain">
+        	<label for="register-name">Name</label>
+			<input type="text" name="name" id="register-name" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="register-email">Email</label>
+			<input type="email" name="email" id="register-email" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="register-password">Password:</label>
+			<input type="password" name="password" id="register-password" value="" autocomplete="off">
+		</div>
+        
+        <div class="ui-field-contain">
+    		<label for="select-service-register">LIRR/NJT:</label>
+            <select name="select-service-register" id="select-service-register" onchange="OnServChangeRegister()">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>
+    	   
+        <div class="ui-field-contain">
+    		<label for="select-from-register">Home Station:</label>
+            <select name="select-from-register" id="select-from-register" onblur="OnSelFromChangeRegister(this)">
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+    		<label for="select-to-register">Favorite Destination:</label>
+            <select name="select-to-register" id="select-to-register">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+        
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+        	<button class="ui-shadow ui-btn ui-corner-all" id="register-btn">Register</button>
+        </div>
+        </form>
+    </div>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="loginPage">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#loginPage" class="ui-btn-active" data-transition="slide">Sign-In</a></li>
+            <li><a href="#registerPage" data-transition="slide">Register</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="main" class="ui-content">
+        <form id="login-form" method="post" action="/login">      
+        <div class="ui-field-contain">
+        	<label for="login-email">Email</label>
+			<input type="email" name="email" id="login-email" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="login-password">Password:</label>
+			<input type="password" name="password" id="login-password" value="" autocomplete="off">
+		</div>
+        
+        <div class="ui-field-contain">
+        	<button class="ui-shadow ui-btn ui-corner-all" id="login-btn">Log In</button>
+        </div>
+        </form>
+    </div>   
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="page1">
+	<div data-role="header" data-theme="b">
+		<h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" class="ui-btn-active" data-transition="slide">Home</a></li>
+            <li><a href="#page2" data-transition="slide">Train Info</a></li>
+            <li><a href="#page3" data-transition="slide">Profile</a></li>
+          </ul>
+        </div>
+	</div>
+
+	<div data-role="main" class="ui-content">
+    	<div class="ui-field-contain">
+    		<label for="select-service">LIRR/NJT:</label>
+            <select name="select-service" id="select-service" onchange="OnServChange()">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>	
+        <div class="ui-field-contain">
+           <label for="select-from">Origin Station:</label>
+            <select name="select-from" id="select-from" onblur="OnSelFromChange(this)">
+            </select>
+        </div>
+        <div class="ui-field-contain">
+           <label for="select-to">Destination Station:</label>
+            <select disabled name="select-to" id="select-to">
+           </select>
+        </div>
+        <div class="ui-field-contain">
+	      <a href="#page2" name="find-my-train" id="find-my-train" type="button">
+                 <img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
+             </a>
+        </div>
+        <div class="ui-field-contain">
+            <button class="ui-shadow ui-btn ui-corner-all" data-theme="b" id="find-my-train-btn">Find My Train</button>
+        </div>
+	</div>
+
+	<div data-role="footer" data-theme="b">
+		<h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+	</div>
+</div>
+
+<div data-role="page" id="page2">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" data-transition="slide">Home</a></li>
+            <li><a href="#page2" class="ui-btn-active" data-transition="slide">Train Info</a></li>
+            <li><a href="#page3" data-transition="slide">Profile</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="main" class="ui-content">   
+        <p> Fill content </p>
+    </div>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="page3">
+    <div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" data-transition="slide">Home</a></li>
+            <li><a href="#page2" data-transition="slide">Train Info</a></li>
+            <li><a href="#page3" class="ui-btn-active" data-transition="slide">Profile</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <form id="profile-form" method="post" action="/profile">
+        <div class="ui-field-contain">
+            <label for="profile-name">Name</label>
+            <input type="text" name="name" id="profile-name" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+            <label for="select-service-profile">LIRR/NJT:</label>
+            <select name="select-service-profile" id="select-service-profile">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>
+           
+        <div class="ui-field-contain">
+            <label for="select-from-profile">Home Station:</label>
+            <select name="select-from-profile" id="select-from-profile">
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+            <label for="select-to-profile">Favorite Destination:</label>
+            <select name="select-to-profile" id="select-to-profile">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+                <option value="1">Station 1</option>
+                <option value="2">Station 2</option>
+                <option value="3">Station 3</option>
+                <option value="4">Station 4</option>
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+            <button class="ui-shadow ui-btn ui-corner-all" id="update-btn">Update</button>
+        </div>
+        </form>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+</body>
+</html>

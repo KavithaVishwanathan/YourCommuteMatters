@@ -321,4 +321,4 @@ def GetTrains(Service,FROM,TO,HOUR,MIN):
 @app.route('/',methods=['GET','POST'])
 def landing():
   if request.method == 'GET':
-    return render_template('commuterAppTemplate.html')
+    return render_template('index.html')
