@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+	<widget xmlns="http://www.w3.org/ns/widgets" 
+	 xmlns:gap="http://phonegap.com/ns/1.0" 
+	 id="edu.nyu.stern.quickcommute" 
+	 version="1.0.0">
+	  <name>QuickCommute</name>
+	  <description>Team 6 Final Project - Commuter App</description>
+	  <author href='http://websys3.stern.nyu.edu/websysS16GB/websysS16GB6/'>
+	  Web & Mobile App Development Spring 2016 Team 6</author>
+	  <content src="index.html"/>
+	</widget>
