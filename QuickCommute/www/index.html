@@ -51,7 +51,247 @@ table tr:last-child td {
 }
 </style>
 
-<script src="../script.js" type="text/javascript"></script>
+<!-- <script src="../script.js" type="text/javascript"></script> -->
+</head> 
+
+<body>
+
+<div data-role="page" id="registerPage">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#loginPage" data-transition="slide">Sign-In</a></li>
+            <li><a href="#registerPage" class="ui-btn-active" data-transition="slide">Register</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="content">
+        <form id="register-form" method="post" action="/register">
+    	<div class="ui-field-contain">
+        	<label for="register-name">Name</label>
+			<input type="text" name="name" id="register-name" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="register-email">Email</label>
+			<input type="email" name="email" id="register-email" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="register-password">Password:</label>
+			<input type="password" name="password" id="register-password" value="" autocomplete="off">
+		</div>
+        
+        <div class="ui-field-contain">
+    		<label for="select-service-register">LIRR/NJT:</label>
+            <select name="select-service-register" id="select-service-register" onfocus="OnServChangeSection('register')" onchange="OnServChangeSection('register')">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>
+    	   
+        <div class="ui-field-contain">
+    		<label for="select-from-register">Home Station:</label>
+            <select name="select-from-register" id="select-from-register" onblur="OnSelFromChangeSection('register',this)">
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+    		<label for="select-to-register">Favorite Destination:</label>
+            <select name="select-to-register" id="select-to-register">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+        
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+        	<button class="ui-shadow ui-btn ui-corner-all" id="register-btn">Register</button>
+        </div>
+        </form>
+    </div>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="loginPage">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#loginPage" class="ui-btn-active" data-transition="slide">Sign-In</a></li>
+            <li><a href="#registerPage" data-transition="slide">Register</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="content">
+        <form id="login-form" method="post" action="/login">      
+        <div class="ui-field-contain">
+        	<label for="login-email">Email</label>
+			<input type="email" name="email" id="login-email" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+        	<label for="login-password">Password:</label>
+			<input type="password" name="password" id="login-password" value="" autocomplete="off">
+		</div>
+        
+        <div class="ui-field-contain">
+        	<button class="ui-shadow ui-btn ui-corner-all" id="login-btn">Log In</button>
+        </div>
+        </form>
+    </div>   
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="page1">
+	<div data-role="header" data-theme="b">
+		<h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" class="ui-btn-active" data-transition="slide">Home</a></li>
+<!--   
+ <li><a href="#page2" data-transition="slide">Train Info</a></li>
+-->  
+          <li><a href="#page3" data-transition="slide">Profile</a></li>
+          </ul>
+        </div>
+	</div>
+
+	<div data-role="content">
+    	  <div class="ui-field-contain">
+    	    <label for="select-service">LIRR/NJT:</label>
+            <select name="select-service" id="select-service" onfocus="OnServChange()" onchange="OnServChange()">
+  		<option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>	
+        <div class="ui-field-contain">
+           <label for="select-from">Origin Station:</label>
+            <select name="select-from" id="select-from" onblur="OnSelFromChange(this)">
+            </select>
+        </div>
+        <div class="ui-field-contain">
+           <label for="select-to">Destination Station:</label>
+            <select name="select-to" id="select-to">
+           </select>
+        </div>
+        <div class="ui-field-contain">
+            <label for="notifTime">Notification Time:</label>
+    	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />	
+        </div>
+	<a href="#page2" name="find-my-train" id="find-my-train" type="button">
+		<img src="findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
+	</a>
+
+
+        <!--
+        <div class="ui-field-contain">
+	      <a href="#page2" name="find-my-train" id="find-my-train" type="button">
+                 <img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" />
+             </a>
+        </div>
+    -->
+        <!--div class="ui-field-contain">
+            <button class="ui-shadow ui-btn ui-corner-all" data-theme="b" name ="find-my-train" id="find-my-train" onclick="OnFindTrain()">Find My Train</button>
+        </div-->
+	</div>
+
+	<div data-role="footer" data-theme="b">
+		<h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+	</div>
+</div>
+
+<div data-role="page" id="page2" onpageshow="OnShowTrain()" onpagehide="OnHideTrain()">
+	<div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" data-transition="slide">Home</a></li>
+<!--   
+         <li><a href="#page2" class="ui-btn-active" data-transition="slide">Train Info</a></li>
+-->     
+       <li><a href="#page3" data-transition="slide">Profile</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <div data-role="content">   
+         <p id="train-content">Fill Information</p>
+	 <!--table data-role="table" class="ui-responsive" id="FoundTrain">
+		<thead>
+		<tr>
+			<th>Track</th>
+			<th>Train ID</th>
+			<th>Track</th>
+			<th>Departure Time</th>
+		</tr>
+		
+  		<tbody></tbody>
+	</table-->
+    </div>
+
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
+
+<div data-role="page" id="page3">
+    <div data-role="header" data-theme="b">
+        <h1 data-theme="b">Find My Train</h1>
+        <div data-role="navbar">
+          <ul>
+            <li><a href="#page1" data-transition="slide">Home</a></li>
+<!--   
+         <li><a href="#page2" data-transition="slide">Train Info</a></li>
+-->    
+        <li><a href="#page3" class="ui-btn-active" data-transition="slide">Profile</a></li>
+          </ul>
+        </div>
+    </div>
+	<div data-role="content">	
+    <form id="profile-form" method="post" action="/profile">
+        <div class="ui-field-contain">
+            <label for="profile-name">Name</label>
+            <input type="text" name="name" id="profile-name" value="">
+        </div>
+        
+        <div class="ui-field-contain">
+            <label for="select-service-profile">LIRR/NJT:</label>
+            <select name="select-service-profile" id="select-service-profile" onfocus="OnServChangeSection('profile')" onchange="OnServChangeSection('profile')">
+                <option value="1">LIRR</option>
+                <option value="2">NJT</option>
+            </select>
+        </div>
+           
+        <div class="ui-field-contain">
+            <label for="select-from-profile">Home Station:</label>
+            <select name="select-from-profile" id="select-from-profile" onchange="OnSelFromChangeSection('profile',this)">
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+            <label for="select-to-profile">Favorite Destination:</label>
+            <select name="select-to-profile" id="select-to-profile">
+                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
+            </select>
+        </div>
+        
+        <div class="ui-field-contain">
+            <button class="ui-shadow ui-btn ui-corner-all" id="update-btn">Update</button>
+        </div>
+        </form>
+</div>
+    <div data-role="footer" data-theme="b">
+        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
+    </div>
+</div>
 <script type="text/javaScript">
 	$( document ).bind( "mobileinit", function() {
 		$.mobile.allowCrossDomainPages = true;
@@ -303,9 +543,7 @@ table tr:last-child td {
                 }
         	});
         };
-        $.validator.setDefaults({
-				errorPlacement: function(error, element) { }
-			});
+        
 			$("#login-form").validate({
 				submitHandler : function() {				
                     fetch('login', 'login-form', 'page1');
@@ -325,246 +563,6 @@ table tr:last-child td {
 });    
 
 </script>
-</head> 
-
-<body>
-
-<div data-role="page" id="registerPage">
-	<div data-role="header" data-theme="b">
-        <h1 data-theme="b">Find My Train</h1>
-        <div data-role="navbar">
-          <ul>
-            <li><a href="#loginPage" data-transition="slide">Sign-In</a></li>
-            <li><a href="#registerPage" class="ui-btn-active" data-transition="slide">Register</a></li>
-          </ul>
-        </div>
-    </div>
-
-    <div data-role="content">
-        <form id="register-form" method="post" action="/register">
-    	<div class="ui-field-contain">
-        	<label for="register-name">Name</label>
-			<input type="text" name="name" id="register-name" value="">
-        </div>
-        
-        <div class="ui-field-contain">
-        	<label for="register-email">Email</label>
-			<input type="email" name="email" id="register-email" value="">
-        </div>
-        
-        <div class="ui-field-contain">
-        	<label for="register-password">Password:</label>
-			<input type="password" name="password" id="register-password" value="" autocomplete="off">
-		</div>
-        
-        <div class="ui-field-contain">
-    		<label for="select-service-register">LIRR/NJT:</label>
-            <select name="select-service-register" id="select-service-register" onfocus="OnServChangeSection('register')" onchange="OnServChangeSection('register')">
-                <option value="1">LIRR</option>
-                <option value="2">NJT</option>
-            </select>
-        </div>
-    	   
-        <div class="ui-field-contain">
-    		<label for="select-from-register">Home Station:</label>
-            <select name="select-from-register" id="select-from-register" onblur="OnSelFromChangeSection('register',this)">
-            </select>
-        </div>
-        
-        <div class="ui-field-contain">
-    		<label for="select-to-register">Favorite Destination:</label>
-            <select name="select-to-register" id="select-to-register">
-                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
-        
-            </select>
-        </div>
-        
-        <div class="ui-field-contain">
-        	<button class="ui-shadow ui-btn ui-corner-all" id="register-btn">Register</button>
-        </div>
-        </form>
-    </div>
-
-    <div data-role="footer" data-theme="b">
-        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-    </div>
-</div>
-
-<div data-role="page" id="loginPage">
-	<div data-role="header" data-theme="b">
-        <h1 data-theme="b">Find My Train</h1>
-        <div data-role="navbar">
-          <ul>
-            <li><a href="#loginPage" class="ui-btn-active" data-transition="slide">Sign-In</a></li>
-            <li><a href="#registerPage" data-transition="slide">Register</a></li>
-          </ul>
-        </div>
-    </div>
-
-    <div data-role="content">
-        <form id="login-form" method="post" action="/login">      
-        <div class="ui-field-contain">
-        	<label for="login-email">Email</label>
-			<input type="email" name="email" id="login-email" value="">
-        </div>
-        
-        <div class="ui-field-contain">
-        	<label for="login-password">Password:</label>
-			<input type="password" name="password" id="login-password" value="" autocomplete="off">
-		</div>
-        
-        <div class="ui-field-contain">
-        	<button class="ui-shadow ui-btn ui-corner-all" id="login-btn">Log In</button>
-        </div>
-        </form>
-    </div>   
-    <div data-role="footer" data-theme="b">
-        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-    </div>
-</div>
-
-<div data-role="page" id="page1">
-	<div data-role="header" data-theme="b">
-		<h1 data-theme="b">Find My Train</h1>
-        <div data-role="navbar">
-          <ul>
-            <li><a href="#page1" class="ui-btn-active" data-transition="slide">Home</a></li>
-<!--   
- <li><a href="#page2" data-transition="slide">Train Info</a></li>
--->  
-          <li><a href="#page3" data-transition="slide">Profile</a></li>
-          </ul>
-        </div>
-	</div>
-
-	<div data-role="content">
-    	  <div class="ui-field-contain">
-    	    <label for="select-service">LIRR/NJT:</label>
-            <select name="select-service" id="select-service" onfocus="OnServChange()" onchange="OnServChange()">
-  		<option value="1">LIRR</option>
-                <option value="2">NJT</option>
-            </select>
-        </div>	
-        <div class="ui-field-contain">
-           <label for="select-from">Origin Station:</label>
-            <select name="select-from" id="select-from" onblur="OnSelFromChange(this)">
-            </select>
-        </div>
-        <div class="ui-field-contain">
-           <label for="select-to">Destination Station:</label>
-            <select name="select-to" id="select-to">
-           </select>
-        </div>
-        <div class="ui-field-contain">
-            <label for="notifTime">Notification Time:</label>
-    	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />	
-        </div>
-	<a href="#page2" name="find-my-train" id="find-my-train" type="button">
-		<img src="findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
-	</a>
-
-
-        <!--
-        <div class="ui-field-contain">
-	      <a href="#page2" name="find-my-train" id="find-my-train" type="button">
-                 <img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" />
-             </a>
-        </div>
-    -->
-        <!--div class="ui-field-contain">
-            <button class="ui-shadow ui-btn ui-corner-all" data-theme="b" name ="find-my-train" id="find-my-train" onclick="OnFindTrain()">Find My Train</button>
-        </div-->
-	</div>
-
-	<div data-role="footer" data-theme="b">
-		<h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-	</div>
-</div>
-
-<div data-role="page" id="page2" onpageshow="OnShowTrain()" onpagehide="OnHideTrain()">
-	<div data-role="header" data-theme="b">
-        <h1 data-theme="b">Find My Train</h1>
-        <div data-role="navbar">
-          <ul>
-            <li><a href="#page1" data-transition="slide">Home</a></li>
-<!--   
-         <li><a href="#page2" class="ui-btn-active" data-transition="slide">Train Info</a></li>
--->     
-       <li><a href="#page3" data-transition="slide">Profile</a></li>
-          </ul>
-        </div>
-    </div>
-
-    <div data-role="content">   
-         <p id="train-content">Fill Information</p>
-	 <!--table data-role="table" class="ui-responsive" id="FoundTrain">
-		<thead>
-		<tr>
-			<th>Track</th>
-			<th>Train ID</th>
-			<th>Track</th>
-			<th>Departure Time</th>
-		</tr>
-		
-  		<tbody></tbody>
-	</table-->
-    </div>
-
-    <div data-role="footer" data-theme="b">
-        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-    </div>
-</div>
-
-<div data-role="page" id="page3">
-    <div data-role="header" data-theme="b">
-        <h1 data-theme="b">Find My Train</h1>
-        <div data-role="navbar">
-          <ul>
-            <li><a href="#page1" data-transition="slide">Home</a></li>
-<!--   
-         <li><a href="#page2" data-transition="slide">Train Info</a></li>
--->    
-        <li><a href="#page3" class="ui-btn-active" data-transition="slide">Profile</a></li>
-          </ul>
-        </div>
-    </div>
-	<div data-role="content">	
-    <form id="profile-form" method="post" action="/profile">
-        <div class="ui-field-contain">
-            <label for="profile-name">Name</label>
-            <input type="text" name="name" id="profile-name" value="">
-        </div>
-        
-        <div class="ui-field-contain">
-            <label for="select-service-profile">LIRR/NJT:</label>
-            <select name="select-service-profile" id="select-service-profile" onfocus="OnServChangeSection('profile')" onchange="OnServChangeSection('profile')">
-                <option value="1">LIRR</option>
-                <option value="2">NJT</option>
-            </select>
-        </div>
-           
-        <div class="ui-field-contain">
-            <label for="select-from-profile">Home Station:</label>
-            <select name="select-from-profile" id="select-from-profile" onchange="OnSelFromChangeSection('profile',this)">
-            </select>
-        </div>
-        
-        <div class="ui-field-contain">
-            <label for="select-to-profile">Favorite Destination:</label>
-            <select name="select-to-profile" id="select-to-profile">
-                <!-- <option value="choose-one" data-placeholder="true">Choose Origin Station...</option> -->
-            </select>
-        </div>
-        
-        <div class="ui-field-contain">
-            <button class="ui-shadow ui-btn ui-corner-all" id="update-btn">Update</button>
-        </div>
-        </form>
-</div>
-    <div data-role="footer" data-theme="b">
-        <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
-    </div>
-</div>
 
 <script >
         app.initialize();
