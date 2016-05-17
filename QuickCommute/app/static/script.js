@@ -1,3 +1,11 @@
+var userObject = {
+    email : "",
+    fromStation : ""
+    toStation : ""
+    service : ""
+}
+
+
 // Register
 $(document).on('pageinit', '#registerPage', function(){  
     $(document).on('click', '#register-btn', function() {
@@ -56,6 +64,10 @@ $(document).on('pageinit', '#loginPage', function(){
                 	
                 	success: function (result) {
                         if(result.status && result.status == "success") {
+                            userObject.email = email
+                            userObject.fromStation = fromStation
+                            userObject.toStation = toStation
+                            userObject.service = service
                             $.mobile.changePage("#page1");                         
                         } else {
                             alert('Login unsuccessful!'); 
@@ -111,4 +123,3 @@ $(document).on('pageinit', '#page3', function(){
         return false;
     });    
 });
-

@@ -136,7 +136,7 @@ def login():
   registered_user = User.query.filter_by(email=email).first()
   if registered_user and registered_user.check_password(password):
     login_user(registered_user)
-    return jsonify({'status':'success'}), 201
+    return jsonify({'emai:':email, 'fromStation':registered_user.homeStation, 'toStation':registered_user.favStation, 'service':registered_user.service, 'status':'success'}), 201
   else:
     return jsonify({"status":"failure", "message": "invalid password"}), 201
 
