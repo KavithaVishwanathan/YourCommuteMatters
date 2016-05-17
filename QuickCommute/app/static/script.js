@@ -1,9 +1,9 @@
 var userObject = {
     email : "",
-    fromStation : ""
-    toStation : ""
+    fromStation : "",
+    toStation : "",
     service : ""
-}
+};
 
 
 // Register
@@ -64,10 +64,10 @@ $(document).on('pageinit', '#loginPage', function(){
                 	
                 	success: function (result) {
                         if(result.status && result.status == "success") {
-                            userObject.email = email
-                            userObject.fromStation = fromStation
-                            userObject.toStation = toStation
-                            userObject.service = service
+                            userObject.email = result.email;
+                            userObject.fromStation = result.fromStation;
+                            userObject.toStation = result.toStation;
+                            userObject.service = result.service;
                             $.mobile.changePage("#page1");                         
                         } else {
                             alert('Login unsuccessful!'); 

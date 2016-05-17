@@ -121,7 +121,7 @@ def register():
   homeSt = request.form['select-from-register']
   favSt = request.form['select-to-register']
   service = request.form['select-service-register']
-  user = User(email,name,password, homeSt, favSt, service, datetime.utcnow())
+  user = User(email,name,password, homeSt, favSt, service, datetime.datetime.utcnow())
   db.session.add(user)
   db.session.commit()
   flash('User registered successfully!!')
@@ -149,6 +149,16 @@ def updateProfile():
   user.service = request.form['select-service-profile']
   db.session.commit()
   return jsonify({'status':'success'}), 201
+
+@app.route('/GetUserData',methods = ['GET'])
+def GetUserData():
+    user = get_current_user()
+    Output={}
+    Output["ServiceID"] = user.service
+    Output["StationIDFrom"] = user.homeStation
+    Output["StationIDTo"] = user.favStation
+    JsonOutput = json.dumps(Output)
+    return JsonOutput
 
 @app.route('/GetStationName',methods = ['GET'])
 def GetStationName(StationID1,StationID2):
