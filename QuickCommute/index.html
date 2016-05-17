@@ -4,14 +4,50 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Find My Train</title>
-<link href="static/commuter.css" rel="stylesheet" type="text/css">
+<link href="commuter.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.css">
+<style>
+table {
+    color: black;
+    background: #fff;
+    border: 1px solid #b4b4b4;
+    font: bold 17px helvetica;
+    padding: 0;
+    margin-top:10px;
+    width: 100%;
+    -webkit-border-radius: 8px;
+}
+  
+table th {
+    color: #666;
+    border-bottom: 1px solid #b4b4b4;
+    border-right: 1px solid #b4b4b4;
+    padding: 10px 10px 10px 10px;
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eee);
+}
+
+table tr td {
+    color: #666;
+    border-bottom: 1px solid #b4b4b4;
+    border-right: 1px solid #b4b4b4;
+    padding: 10px 10px 10px 10px;
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eee);
+}
+         
+table tr td:last-child {
+    border-right: none;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+</style>
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
     <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
-<script src="../static/script.js" type="text/javascript"></script>
+<script src="../script.js" type="text/javascript"></script>
 <script type="text/JavaScript">
 	var UserServID;
 	var UserStatIDFrom;
@@ -226,6 +262,132 @@
 	};
 
   </script>  
+  <script>
+var userObject = {
+    email : "",
+    fromStation : "",
+    toStation : "",
+    service : ""
+};
+
+  $(document).on('pageinit', '#registerPage', function(){  
+    $(document).on('click', '#register-btn', function() {
+        if($('#register-name').val().length > 0 && $('#register-password').val().length > 0 
+          && $('#register-email').val().length > 0){        
+            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/register',
+                    data: $('#register-form').serialize(),
+                    type: 'POST',                   
+                    async: 'true',
+                    dataType: 'json',
+           
+                    beforeSend: function() {
+                        $.mobile.loading('show');
+                    },
+                
+                    complete: function() {
+                        $.mobile.loading('hide');
+                    },
+   
+                    success: function (result) {
+                        if(result.status && result.status == "success") {
+                            $.mobile.changePage("#loginPage");                         
+                        } else {
+                            alert('Registration unsuccessful!'); 
+                        }
+                    },
+                
+                    error: function (request,error) {
+                        alert('Network error has occurred please try again!');
+                    }
+            });                   
+    
+        } else {
+            alert('Please fill all necessary fields');
+        }           
+        return false; // cancel original event to prevent form submitting
+    });    
+});
+
+// login
+$(document).on('pageinit', '#loginPage', function(){  
+    $(document).on('click', '#login-btn', function() { // catch the form's submit event
+        if($('#login-email').val().length > 0 && $('#login-password').val().length > 0){
+            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/login',
+                    data: $('#login-form').serialize(),
+                    type: 'POST',                   
+                    async: 'true',
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $.mobile.loading('show'); // This will show ajax spinner
+                    },
+                
+                    complete: function() {
+                        $.mobile.loading('hide'); // This will hide ajax spinner
+                    },
+                    
+                    success: function (result) {
+                        if(result.status && result.status == "success") {
+                            userObject.email = result.email;
+                            userObject.fromStation = result.fromStation;
+                            userObject.toStation = result.toStation;
+                            userObject.service = result.service;
+                            $.mobile.changePage("#page1");                         
+                        } else {
+                            alert('Login unsuccessful!'); 
+                        }
+                    },
+                
+                    error: function (request,error) {
+                        alert('Network error has occurred please try again!');
+                    }
+            });                   
+    
+        } else {
+            alert('Please fill all necessary fields');
+        }           
+        return false; // cancel original event to prevent form submitting
+    });    
+});
+
+// Update Profile
+$(document).on('pageinit', '#page3', function(){  
+    $(document).on('click', '#update-btn', function() {
+        if($('#profile-name').val().length > 0){        
+            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/profile',
+                    data: $('#profile-form').serialize(),
+                    type: 'POST',                   
+                    async: 'true',
+                    dataType: 'json',
+           
+                    beforeSend: function() {
+                        $.mobile.loading('show');
+                    },
+                
+                    complete: function() {
+                        $.mobile.loading('hide');
+                    },
+   
+                    success: function (result) {
+                        if(result.status && result.status == "success") {
+                            $.mobile.changePage("#page3");                         
+                        } else {
+                            alert('Update unsuccessful! - Try again Later'); 
+                        }
+                    },
+                
+                    error: function (request,error) {
+                        alert('Network error has occurred please try again!');
+                    }
+            });                   
+    
+        } else {
+            alert('Please fill all necessary fields');
+        }           
+        return false;
+    });    
+});
+
+</script>
 </head> 
 
 <body>
@@ -361,7 +523,7 @@
     	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />	
         </div>
 	<a href="#page2" name="find-my-train" id="find-my-train" type="button">
-		<img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
+		<img src="findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
 	</a>
 
 
