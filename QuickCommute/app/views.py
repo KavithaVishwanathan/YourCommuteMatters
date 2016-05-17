@@ -29,7 +29,6 @@ def load_user(id):
   return User.query.get(int(id))
 
 def get_current_user():
-  print current_user
   return current_user
 
 class User(db.Model):
@@ -129,7 +128,6 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-  get_current_user()
   email = request.form['email']
   password = request.form['password']
 
