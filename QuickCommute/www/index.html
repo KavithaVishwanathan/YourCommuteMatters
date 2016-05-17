@@ -314,7 +314,7 @@ table tr:last-child td {
     function OnServChange(){
 		var xmlhttp = new XMLHttpRequest();
 		var servid1 = document.getElementById("select-service").value;
-		var url = "/GetStationsFrom/"+servid1+"/";
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsFrom/"+servid1+"/";
 					
 		xmlhttp.onreadystatechange = function(){
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -340,7 +340,7 @@ table tr:last-child td {
     function OnServChangeSection(section){
 		var xmlhttp = new XMLHttpRequest();
 		var servid1 = document.getElementById("select-service-"+section).value;
-		var url = "/GetStationsFrom/"+servid1+"/";
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsFrom/"+servid1+"/";
 					
 		xmlhttp.onreadystatechange = function(){
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -368,7 +368,7 @@ table tr:last-child td {
 		var servid2 = document.getElementById("select-service").value;
 		var ind = sel.selectedIndex
 		var stid2 = sel.options[sel.selectedIndex].value;
-		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsTo/"+servid2+"/"+stid2+"/";
 		
 		xmlhttp.onreadystatechange = function(){
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -396,7 +396,7 @@ table tr:last-child td {
 		var servid2 = document.getElementById("select-service-"+section).value;
 		var ind = sel.selectedIndex
 		var stid2 = sel.options[sel.selectedIndex].value;
-		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsTo/"+servid2+"/"+stid2+"/";
 		
 		xmlhttp.onreadystatechange = function(){
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -486,7 +486,7 @@ table tr:last-child td {
 		};
 		var hour = time.substring(0, time.indexOf(":")); 
 		var min = time.substring(time.indexOf(":") + 1,5); 
-		var url = "/GetTrains/"+serv+"/"+stFrom+"/"+stTo+"/"+hour+"/"+min+"/";
+		var url = "http://websys3.stern.nyu.edu:7006/GetTrains/"+serv+"/"+stFrom+"/"+stTo+"/"+hour+"/"+min+"/";
 		xmlhttp.onreadystatechange = function(){
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var myArr = JSON.parse(xmlhttp.responseText);

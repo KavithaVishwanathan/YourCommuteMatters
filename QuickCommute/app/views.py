@@ -16,7 +16,7 @@ from xml.etree import cElementTree as ET
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://websysS16GB6:websysS16GB6!!@websys3/websysS16GB6'
 db = SQLAlchemy(app)
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
 #@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 
