@@ -48,7 +48,11 @@ table tr:last-child td {
 <script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
     <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
 <script src="../script.js" type="text/javascript"></script>
-<script type="text/JavaScript">
+<script type="text/javaScript">
+	$( document ).bind( "mobileinit", function() {
+		$.mobile.allowCrossDomainPages = true;
+		$.support.cors = true;
+	});
 	var UserServID;
 	var UserStatIDFrom;
 	var UserStatIDTo;
@@ -113,7 +117,7 @@ table tr:last-child td {
 		};
 	};
   </script>	
-  <script type="text/JavaScript">
+  <script type="text/javaScript">
     function OnSelFromChange(sel){
 		var xmlhttp = new XMLHttpRequest();
 		var servid2 = document.getElementById("select-service").value;
@@ -141,7 +145,7 @@ table tr:last-child td {
 		};
 	};
   </script>
-  <script type="text/JavaScript">
+  <script type="text/javaScript">
     function OnSelFromChangeSection(section,sel){
 		var xmlhttp = new XMLHttpRequest();
 		var servid2 = document.getElementById("select-service-"+section).value;
@@ -170,7 +174,7 @@ table tr:last-child td {
 
 	};
   </script>
-  <script type="text/JavaScript">
+  <script type="text/javaScript">
   	function OnFindTrain(){
 		ReqServID = document.getElementById("select-service").value;
 		ReqStatIDFrom = document.getElementById("select-from").value;
@@ -263,118 +267,58 @@ table tr:last-child td {
 
   </script>  
   <script>
-  $(document).on('pageinit', '#registerPage', function(){  
-    $(document).on('click', '#register-btn', function() {
-        if($('#register-name').val().length > 0 && $('#register-password').val().length > 0 
-          && $('#register-email').val().length > 0){        
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/register',
-                    data: $('#register-form').serialize(),
-                    type: 'POST',                   
-                    async: 'true',
-                    dataType: 'json',
-           
-                    beforeSend: function() {
-                        $.mobile.loading('show');
-                    },
-                
-                    complete: function() {
-                        $.mobile.loading('hide');
-                    },
-   
-                    success: function (result) {
-                        if(result.status && result.status == "success") {
-                            $.mobile.changePage("#loginPage");                         
-                        } else {
-                            alert('Registration unsuccessful!'); 
-                        }
-                    },
-                
-                    error: function (request,error) {
-                        alert('Network error has occurred please try again!');
-                    }
-            });                   
-    
-        } else {
-            alert('Please fill all necessary fields');
-        }           
-        return false; // cancel original event to prevent form submitting
-    });    
-});
+  $(function() {  
+    var fetch = function(url, formid, nextpageid) {     
+        $.ajax({url: 'http://websys3.stern.nyu.edu:7006/' + url,
+                data: $('#' + formid).serialize(),
+                type: 'POST',                   
+                async: 'true',
+                dataType: 'json',
+       			xhrFields: {
+       				withCredentials: true
+       			},
 
-// login
-$(document).on('pageinit', '#loginPage', function(){  
-    $(document).on('click', '#login-btn', function() { // catch the form's submit event
-        if($('#login-email').val().length > 0 && $('#login-password').val().length > 0){
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/login',
-                    data: $('#login-form').serialize(),
-                    type: 'POST',                   
-                    async: 'true',
-                    dataType: 'json',
-                    beforeSend: function() {
-                        $.mobile.loading('show'); // This will show ajax spinner
-                    },
-                
-                    complete: function() {
-                        $.mobile.loading('hide'); // This will hide ajax spinner
-                    },
-                    
-                    success: function (result) {
-                        if(result.status && result.status == "success") {
-                           $.mobile.changePage("#page1");                         
-                        } else {
-                            alert('Login unsuccessful!'); 
-                        }
-                    },
-                
-                    error: function (request,error) {
-                        alert('Network error has occurred please try again!');
-                    }
-            });                   
-    
-        } else {
-            alert('Please fill all necessary fields');
-        }           
-        return false; // cancel original event to prevent form submitting
-    });    
-});
+                beforeSend: function() {
+                    $.mobile.loading('show');
+                },
+            
+                complete: function() {
+                    $.mobile.loading('hide');
+                },
 
-// Update Profile
-$(document).on('pageinit', '#page3', function(){  
-    $(document).on('click', '#update-btn', function() {
-        if($('#profile-name').val().length > 0){        
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/profile',
-                    data: $('#profile-form').serialize(),
-                    type: 'POST',                   
-                    async: 'true',
-                    dataType: 'json',
-           
-                    beforeSend: function() {
-                        $.mobile.loading('show');
-                    },
-                
-                    complete: function() {
-                        $.mobile.loading('hide');
-                    },
-   
-                    success: function (result) {
-                        if(result.status && result.status == "success") {
-                            $.mobile.changePage("#page3");                         
-                        } else {
-                            alert('Update unsuccessful! - Try again Later'); 
-                        }
-                    },
-                
-                    error: function (request,error) {
-                        alert('Network error has occurred please try again!');
-                    }
-            });                   
-    
-        } else {
-            alert('Please fill all necessary fields');
-        }           
-        return false;
-    });    
-});
+                success: function (result) {
+                    if(result.status && result.status == "success") {
+                        $.mobile.changePage("#" + nextpageid);                          
+                    } else if(result.status == "failure") {
+	                        alert(result.message); 
+	                }
+                },
+            
+                error: function (request,error) {
+                    alert('Network error has occurred please try again!');
+                }
+        	});
+        };
+        $.validator.setDefaults({
+				errorPlacement: function(error, element) { }
+			});
+			$("#login-form").validate({
+				submitHandler : function() {				
+                    fetch('login', 'login-form', 'page1');
+                }
+			});
+			$("#register-form").validate({
+				submitHandler : function() {				
+                    fetch('register', 'register-form', 'loginPage');
+                }
+			});
+			$("#profile-form").validate({
+				submitHandler : function() {				
+                    fetch('profile', 'profile-form', 'page3'); 
+                }
+			});                   
+
+});    
 
 </script>
 </head> 
