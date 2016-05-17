@@ -263,13 +263,6 @@ table tr:last-child td {
 
   </script>  
   <script>
-var userObject = {
-    email : "",
-    fromStation : "",
-    toStation : "",
-    service : ""
-};
-
   $(document).on('pageinit', '#registerPage', function(){  
     $(document).on('click', '#register-btn', function() {
         if($('#register-name').val().length > 0 && $('#register-password').val().length > 0 
@@ -327,11 +320,7 @@ $(document).on('pageinit', '#loginPage', function(){
                     
                     success: function (result) {
                         if(result.status && result.status == "success") {
-                            userObject.email = result.email;
-                            userObject.fromStation = result.fromStation;
-                            userObject.toStation = result.toStation;
-                            userObject.service = result.service;
-                            $.mobile.changePage("#page1");                         
+                           $.mobile.changePage("#page1");                         
                         } else {
                             alert('Login unsuccessful!'); 
                         }
