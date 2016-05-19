@@ -4,8 +4,16 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Find My Train</title>
-<link href="commuter.css" rel="stylesheet" type="text/css">
+
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+
+<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/additional-methods.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 <link rel="stylesheet" type="text/css" href="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.css">
 <style>
 table {
@@ -43,344 +51,8 @@ table tr:last-child td {
     border-bottom: none;
 }
 </style>
-<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<script type="text/javascript" src="http://cdn.jtsage.com/jtsage-datebox/latest/jtsage-datebox.jqm.min.js"></script>
-    <script type="text/javascript" src="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.mode.flipbox.min.js"></script>
-<script src="../script.js" type="text/javascript"></script>
-<script type="text/JavaScript">
-	var UserServID;
-	var UserStatIDFrom;
-	var UserStatIDTo;
-	
-	var ReqServID;
-	var ReqStatIDFrom;
-	var ReqStatIDTo;
-	var ReqTime; 
-	
-	var NewQuery = 'False';
-</script>
 
-  <script type="text/JavaScript">
-    function OnServChange(){
-		var xmlhttp = new XMLHttpRequest();
-		var servid1 = document.getElementById("select-service").value;
-		var url = "/GetStationsFrom/"+servid1+"/";
-					
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateFrom(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateFrom(arr) {
-			var out = "";
-			var i;
-			var arrSts = arr.Stations;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
-			}
-			document.getElementById("select-from").innerHTML = out;
-		};
-	};
-  </script>
-  <script type="text/JavaScript">
-    function OnServChangeSection(section){
-		var xmlhttp = new XMLHttpRequest();
-		var servid1 = document.getElementById("select-service-"+section).value;
-		var url = "/GetStationsFrom/"+servid1+"/";
-					
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateFrom(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateFrom(arr) {
-			var out = "";
-			var i;
-			var arrSts = arr.Stations;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
-			}
-			document.getElementById("select-from-"+section).innerHTML = out;
-		};
-	};
-  </script>	
-  <script type="text/JavaScript">
-    function OnSelFromChange(sel){
-		var xmlhttp = new XMLHttpRequest();
-		var servid2 = document.getElementById("select-service").value;
-		var ind = sel.selectedIndex
-		var stid2 = sel.options[sel.selectedIndex].value;
-		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
-		
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateTo(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateTo(arr) {
-			var out = "";
-			var i;
-			var arrSts = arr.Stations;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
-			}
-			document.getElementById("select-to").innerHTML = out;
-		};
-	};
-  </script>
-  <script type="text/JavaScript">
-    function OnSelFromChangeSection(section,sel){
-		var xmlhttp = new XMLHttpRequest();
-		var servid2 = document.getElementById("select-service-"+section).value;
-		var ind = sel.selectedIndex
-		var stid2 = sel.options[sel.selectedIndex].value;
-		var url = "/GetStationsTo/"+servid2+"/"+stid2+"/";
-		
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateTo(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateTo(arr) {
-			var out = "";
-			var i;
-			var arrSts = arr.Stations;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
-			}
-			document.getElementById("select-to-"+section).innerHTML = out;
-		};
-
-	};
-  </script>
-  <script type="text/JavaScript">
-  	function OnFindTrain(){
-		ReqServID = document.getElementById("select-service").value;
-		ReqStatIDFrom = document.getElementById("select-from").value;
-		ReqStatIDTo = document.getElementById("select-to").value;
-		ReqTime = document.getElementById("notifTime").value;
-		NewQuery = 'True';
-		OnShowTrain();
-	};
-	function OnHideTrain(){
-		NewQuery = 'False';
-	};
-	function OnInit(){	
-		NewQuery = 'False'
-		var url = "http://websys3.stern.nyu.edu:7006/GetUserData/";
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateUser(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateUser(arr) {
-			UserServiceID = arr.ServiceID;
-			UserStationIDFrom = arr.StationIDFrom;
-			UserStationIDTo = arr.StationIDTo;
-			alert(UserServiceID);
-		};	
-	};
-	function OnShowTrain(){
-		var xmlhttp = new XMLHttpRequest();
-		var today = new Date();
-		var h = today.getHours();
-        var m = today.getMinutes();
-		var serv;
-		var stFrom;
-		var stTo;
-		var time;
-                if (h<10) {
-			h = "0" + h;
-		};
-		if (m<10) {
-			m = "0" + m;
-		};
-		if (NewQuery == 'False'){
-			serv = UserServiceID;
-			stFrom = UserStationIDFrom;
-			stTo = UserStationIDTo;
-			time = h + ":" + m;
-		} else {
-			if (NewQuery == 'True'){
-				serv = ReqServID;
-				stFrom = ReqStatIDFrom;
-				stTo = ReqStatIDTo;
-				time = ReqTime;
-				NewQuery = 'Reload';
-			} else {
-				serv = ReqServID;
-				stFrom = ReqStatIDFrom;
-				stTo = ReqStatIDTo;
-				time = h + ":" + m;
-			};
-		};
-		var hour = time.substring(0, time.indexOf(":")); 
-		var min = time.substring(time.indexOf(":") + 1,5); 
-		var url = "/GetTrains/"+serv+"/"+stFrom+"/"+stTo+"/"+hour+"/"+min+"/";
-		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var myArr = JSON.parse(xmlhttp.responseText);
-				populateTrains(myArr);
-			}
-		};
-		xmlhttp.open("GET", url, true);
-		xmlhttp.send();
-					
-		function populateTrains(arr) {
-			var out = '<table data-role="table" class="ui-responsive" id="FoundTrain"><tr><th>Train ID</th> <th>Track</th><th>Dep. Time</th></tr>';
-			var i;
-			var arrSts = arr.TRAINS;
-			for(i = 0; i < arrSts.length; i++) {
-				out += '<tr> <td>' + arrSts[i].TRAIN_ID+ '</td> <td>' + arrSts[i].TRACK + '</td><td>' + arrSts[i].ETA + '</td></tr>';
-			};
-			out += '</table>';
-			document.getElementById("train-content").innerHTML = out;
-			
-		};
-
-	};
-
-  </script>  
-  <script>
-  $(document).on('pageinit', '#registerPage', function(){  
-    $(document).on('click', '#register-btn', function() {
-        if($('#register-name').val().length > 0 && $('#register-password').val().length > 0 
-          && $('#register-email').val().length > 0){        
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/register',
-                    data: $('#register-form').serialize(),
-                    type: 'POST',                   
-                    async: 'true',
-                    dataType: 'json',
-           
-                    beforeSend: function() {
-                        $.mobile.loading('show');
-                    },
-                
-                    complete: function() {
-                        $.mobile.loading('hide');
-                    },
-   
-                    success: function (result) {
-                        if(result.status && result.status == "success") {
-                            $.mobile.changePage("#loginPage");                         
-                        } else {
-                            alert('Registration unsuccessful!'); 
-                        }
-                    },
-                
-                    error: function (request,error) {
-                        alert('Network error has occurred please try again!');
-                    }
-            });                   
-    
-        } else {
-            alert('Please fill all necessary fields');
-        }           
-        return false; // cancel original event to prevent form submitting
-    });    
-});
-
-// login
-$(document).on('pageinit', '#loginPage', function(){  
-    $(document).on('click', '#login-btn', function() { // catch the form's submit event
-        if($('#login-email').val().length > 0 && $('#login-password').val().length > 0){
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/login',
-                    data: $('#login-form').serialize(),
-                    type: 'POST',                   
-                    async: 'true',
-                    dataType: 'json',
-                    beforeSend: function() {
-                        $.mobile.loading('show'); // This will show ajax spinner
-                    },
-                
-                    complete: function() {
-                        $.mobile.loading('hide'); // This will hide ajax spinner
-                    },
-                    
-                    success: function (result) {
-                        if(result.status && result.status == "success") {
-                            userObject.email = result.email;
-                            userObject.fromStation = result.fromStation;
-                            userObject.toStation = result.toStation;
-                            userObject.service = result.service;
-                            $.mobile.changePage("#page1");                         
-                        } else {
-                            alert('Login unsuccessful!'); 
-                        }
-                    },
-                
-                    error: function (request,error) {
-                        alert('Network error has occurred please try again!');
-                    }
-            });                   
-    
-        } else {
-            alert('Please fill all necessary fields');
-        }           
-        return false; // cancel original event to prevent form submitting
-    });    
-});
-
-// Update Profile
-$(document).on('pageinit', '#page3', function(){  
-    $(document).on('click', '#update-btn', function() {
-        if($('#profile-name').val().length > 0){        
-            $.ajax({url: 'http://websys3.stern.nyu.edu:7006/profile',
-                    data: $('#profile-form').serialize(),
-                    type: 'POST',                   
-                    async: 'true',
-                    dataType: 'json',
-           
-                    beforeSend: function() {
-                        $.mobile.loading('show');
-                    },
-                
-                    complete: function() {
-                        $.mobile.loading('hide');
-                    },
-   
-                    success: function (result) {
-                        if(result.status && result.status == "success") {
-                            $.mobile.changePage("#page3");                         
-                        } else {
-                            alert('Update unsuccessful! - Try again Later'); 
-                        }
-                    },
-                
-                    error: function (request,error) {
-                        alert('Network error has occurred please try again!');
-                    }
-            });                   
-    
-        } else {
-            alert('Please fill all necessary fields');
-        }           
-        return false;
-    });    
-});
-
-</script>
+<!-- <script src="../script.js" type="text/javascript"></script> -->
 </head> 
 
 <body>
@@ -397,7 +69,7 @@ $(document).on('pageinit', '#page3', function(){
     </div>
 
     <div data-role="content">
-        <form id="register-form" method="post" action="/register">
+        <form id="register-form" method="post">
     	<div class="ui-field-contain">
         	<label for="register-name">Name</label>
 			<input type="text" name="name" id="register-name" value="">
@@ -458,7 +130,7 @@ $(document).on('pageinit', '#page3', function(){
     </div>
 
     <div data-role="content">
-        <form id="login-form" method="post" action="/login">      
+        <form id="login-form" method="post">      
         <div class="ui-field-contain">
         	<label for="login-email">Email</label>
 			<input type="email" name="email" id="login-email" value="">
@@ -516,7 +188,7 @@ $(document).on('pageinit', '#page3', function(){
     	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "a", "theme": "b", "themeHeader": "b"}' />	
         </div>
 	<a href="#page2" name="find-my-train" id="find-my-train" type="button">
-		<img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
+		<img src="findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
 	</a>
 
 
@@ -585,7 +257,7 @@ $(document).on('pageinit', '#page3', function(){
         </div>
     </div>
 	<div data-role="content">	
-    <form id="profile-form" method="post" action="/profile">
+    <form id="profile-form" method="post">
         <div class="ui-field-contain">
             <label for="profile-name">Name</label>
             <input type="text" name="name" id="profile-name" value="">
@@ -621,6 +293,283 @@ $(document).on('pageinit', '#page3', function(){
         <h4>$ $ &nbsp;A D &nbsp;R E V E N U E &nbsp;$ $</h4>
     </div>
 </div>
+<script type="text/javaScript">
+	$( document ).bind( "mobileinit", function() {
+		$.mobile.allowCrossDomainPages = true;
+		$.support.cors = true;
+	});
+	var UserServID;
+	var UserStatIDFrom;
+	var UserStatIDTo;
+	
+	var ReqServID;
+	var ReqStatIDFrom;
+	var ReqStatIDTo;
+	var ReqTime; 
+	
+	var NewQuery = 'False';
+</script>
+
+  <script type="text/JavaScript">
+    function OnServChange(){
+		var xmlhttp = new XMLHttpRequest();
+		var servid1 = document.getElementById("select-service").value;
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsFrom/"+servid1+"/";
+					
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateFrom(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateFrom(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-from").innerHTML = out;
+		};
+	};
+  </script>
+  <script type="text/JavaScript">
+    function OnServChangeSection(section){
+		var xmlhttp = new XMLHttpRequest();
+		var servid1 = document.getElementById("select-service-"+section).value;
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsFrom/"+servid1+"/";
+					
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateFrom(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateFrom(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-from-"+section).innerHTML = out;
+		};
+	};
+  </script>	
+  <script type="text/javaScript">
+    function OnSelFromChange(sel){
+		var xmlhttp = new XMLHttpRequest();
+		var servid2 = document.getElementById("select-service").value;
+		var ind = sel.selectedIndex
+		var stid2 = sel.options[sel.selectedIndex].value;
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsTo/"+servid2+"/"+stid2+"/";
+		
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateTo(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateTo(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-to").innerHTML = out;
+		};
+	};
+  </script>
+  <script type="text/javaScript">
+    function OnSelFromChangeSection(section,sel){
+		var xmlhttp = new XMLHttpRequest();
+		var servid2 = document.getElementById("select-service-"+section).value;
+		var ind = sel.selectedIndex
+		var stid2 = sel.options[sel.selectedIndex].value;
+		var url = "http://websys3.stern.nyu.edu:7006/GetStationsTo/"+servid2+"/"+stid2+"/";
+		
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateTo(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateTo(arr) {
+			var out = "";
+			var i;
+			var arrSts = arr.Stations;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<option value="' + arrSts[i].StationID+ '"> ' + arrSts[i].DisplayName + '</option><br>';
+			}
+			document.getElementById("select-to-"+section).innerHTML = out;
+		};
+
+	};
+  </script>
+  <script type="text/javaScript">
+  	function OnFindTrain(){
+		ReqServID = document.getElementById("select-service").value;
+		ReqStatIDFrom = document.getElementById("select-from").value;
+		ReqStatIDTo = document.getElementById("select-to").value;
+		ReqTime = document.getElementById("notifTime").value;
+		NewQuery = 'True';
+		OnShowTrain();
+	};
+	function OnHideTrain(){
+		NewQuery = 'False';
+	};
+	function OnInit(){	
+		NewQuery = 'False'
+		var url = "http://websys3.stern.nyu.edu:7006/GetUserData/";
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateUser(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateUser(arr) {
+			UserServiceID = arr.ServiceID;
+			UserStationIDFrom = arr.StationIDFrom;
+			UserStationIDTo = arr.StationIDTo;
+			alert(UserServiceID);
+		};	
+	};
+	function OnShowTrain(){
+		var xmlhttp = new XMLHttpRequest();
+		var today = new Date();
+		var h = today.getHours();
+        var m = today.getMinutes();
+		var serv;
+		var stFrom;
+		var stTo;
+		var time;
+                if (h<10) {
+			h = "0" + h;
+		};
+		if (m<10) {
+			m = "0" + m;
+		};
+		if (NewQuery == 'False'){
+			serv = UserServiceID;
+			stFrom = UserStationIDFrom;
+			stTo = UserStationIDTo;
+			time = h + ":" + m;
+		} else {
+			if (NewQuery == 'True'){
+				serv = ReqServID;
+				stFrom = ReqStatIDFrom;
+				stTo = ReqStatIDTo;
+				time = ReqTime;
+				NewQuery = 'Reload';
+			} else {
+				serv = ReqServID;
+				stFrom = ReqStatIDFrom;
+				stTo = ReqStatIDTo;
+				time = h + ":" + m;
+			};
+		};
+		var hour = time.substring(0, time.indexOf(":")); 
+		var min = time.substring(time.indexOf(":") + 1,5); 
+		var url = "http://websys3.stern.nyu.edu:7006/GetTrains/"+serv+"/"+stFrom+"/"+stTo+"/"+hour+"/"+min+"/";
+		xmlhttp.onreadystatechange = function(){
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var myArr = JSON.parse(xmlhttp.responseText);
+				populateTrains(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+					
+		function populateTrains(arr) {
+			var out = '<table data-role="table" class="ui-responsive" id="FoundTrain"><tr><th>Train ID</th> <th>Track</th><th>Dep. Time</th></tr>';
+			var i;
+			var arrSts = arr.TRAINS;
+			for(i = 0; i < arrSts.length; i++) {
+				out += '<tr> <td>' + arrSts[i].TRAIN_ID+ '</td> <td>' + arrSts[i].TRACK + '</td><td>' + arrSts[i].ETA + '</td></tr>';
+			};
+			out += '</table>';
+			document.getElementById("train-content").innerHTML = out;
+			
+		};
+
+	};
+
+  </script>  
+  <script type="text/javascript">
+  $(function() {  
+    var fetch = function(url, formid, nextpageid) {     
+        $.ajax({url: 'http://websys3.stern.nyu.edu:7006/' + url,
+                data: $('#' + formid).serialize(),
+                type: 'POST',                   
+                async: 'true',
+                dataType: 'json',
+       			xhrFields: {
+       				withCredentials: true
+       			},
+
+                beforeSend: function() {
+                    $.mobile.loading('show');
+                },
+            
+                complete: function() {
+                    $.mobile.loading('hide');
+                },
+
+                success: function (result) {
+                    if(result.status && result.status == "success") {
+                        $.mobile.changePage("#" + nextpageid);                          
+                    } else if(result.status == "failure") {
+	                        alert(result.message); 
+	                }
+                },
+            
+                error: function (request,error) {
+                    alert('Network error has occurred please try again!');
+                }
+        	});
+        };
+        
+			$("#login-form").validate({
+				submitHandler : function() {				
+                    fetch('login', 'login-form', 'page1');
+                }
+			});
+			$("#register-form").validate({
+				submitHandler : function() {				
+                    fetch('register', 'register-form', 'loginPage');
+                }
+			});
+			$("#profile-form").validate({
+				submitHandler : function() {				
+                    fetch('profile', 'profile-form', 'page3'); 
+                }
+			});                   
+
+});    
+
+</script>
+
+<!--	<script type="text/javascript" src="cordova.js"></script>-->
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript">
+        app.initialize();
+    </script>
 
 </body>
 </html>
