@@ -10,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/node-waves/0.7.5/waves.min.css">
-<link rel="stylesheet" type="text/css" href="css/nativedroid.css">
 <link rel="stylesheet" type="text/css" href="http://cdn.jtsage.com/datebox/latest/jqm-datebox.min.css">
 
 <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -201,16 +200,10 @@ table tr:last-child td {
             <label for="notifTime">Notification Time:</label>
     	    <input name="notifTime" id="notifTime" type="text" data-role="datebox" data-options='{"mode":"timebox", "useNewStyle":true, "overrideTimeFormat": 12, "themeButton": "b", "themeInput": "b", "theme": "b", "themeHeader": "b"}' />	
         </div>
-	<a href="#page2" name="find-my-train" id="find-my-train" type="button">
-		<img src="findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
-	</a>
-
-
-        <!--
-        <div class="ui-field-contain">
-	      <a href="#page2" name="find-my-train" id="find-my-train" type="button">
-                 <img src="../static/findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" />
-             </a>
+        <div class="ui-field-contain" style="text-align:center">
+        	<a href="#page2" name="find-my-train" id="find-my-train" type="button">
+    		  <img src="findmytrain.png" width="166" height="159" alt="Find My Train" align="middle" onclick="OnFindTrain()"/>
+        	</a>
         </div>
     -->
         <!--div class="ui-field-contain">
@@ -238,7 +231,7 @@ table tr:last-child td {
     </div>
 
     <div data-role="content">   
-         <p id="train-content">Fill Information</p>
+         <p id="train-content">Please fill all the information!</p>
 	 <!--table data-role="table" class="ui-responsive" id="FoundTrain">
 		<thead>
 		<tr>
